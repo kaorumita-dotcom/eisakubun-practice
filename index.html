@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>英作文エラー練習アプリ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#FAF8F5;font-family:'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+@keyframes micPulse{0%,100%{box-shadow:0 0 0 0 rgba(198,40,40,0.4)}50%{box-shadow:0 0 0 12px rgba(198,40,40,0)}}
+textarea:focus,input:focus{outline:none}
+::placeholder{color:#B0A89F}
+button{font-family:'Noto Sans JP',sans-serif}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<script type="text/babel">
+const {useState,useRef,useEffect,useCallback} = React;
+
+const QUESTIONS = [
+  {id:"1-01",type:1,typeName:"うなぎ文（モノが主語）",jp:"私たちは留学で英語を学べる。",answer:"We can learn English by studying abroad.",mistake:"Studying abroad can learn English.",hint:"「学ぶ」のは誰？→ We / Students を主語に"},
+  {id:"1-02",type:1,typeName:"うなぎ文（モノが主語）",jp:"学生は留学で語学力を伸ばせる。",answer:"Students can develop their language skills by studying abroad.",mistake:"Studying abroad can develop their language skills.",hint:"「伸ばす」のは誰？→ Students を主語に"},
+  {id:"1-03",type:1,typeName:"うなぎ文（モノが主語）",jp:"学生は留学で海外の文化を学べる。",answer:"Students can learn about foreign culture by studying abroad.",mistake:"Studying abroad can learn overseas culture.",hint:"「学ぶ」のは誰？→ Students を主語に"},
+  {id:"1-04",type:1,typeName:"うなぎ文（モノが主語）",jp:"私たちは外国の友達と話して異なる価値観を学べる。",answer:"By talking with foreign friends, we can learn about different values.",mistake:"Talking with foreign friends can learn about different values.",hint:"「学ぶ」のは誰？→ we を主語に"},
+  {id:"1-05",type:1,typeName:"うなぎ文（モノが主語）",jp:"あなたは一生の思い出を作れる。",answer:"You can make unforgettable memories.",mistake:"It can get forever memories.",hint:"「作る」のは誰？→ You を主語に"},
+  {id:"1-06",type:1,typeName:"うなぎ文（モノが主語）",jp:"学生は留学するととても緊張する。",answer:"Students feel very nervous when they study abroad.",mistake:"Studying abroad is very feel nervous.",hint:"「緊張する」のは誰？→ Students を主語に"},
+  {id:"1-07",type:1,typeName:"うなぎ文（モノが主語）",jp:"学生は留学で友達を作れる。",answer:"Students can make friends by studying abroad.",mistake:"Studying abroad can makes friends.",hint:"「作る」のは誰？→ Students を主語に"},
+  {id:"1-08",type:1,typeName:"うなぎ文（モノが主語）",jp:"学生は留学で人として成長できる。",answer:"Students can grow as a person through studying abroad.",mistake:"Studying abroad can grow up for them.",hint:"「成長する」のは誰？→ Students / They を主語に"},
+  {id:"1-09",type:1,typeName:"うなぎ文（モノが主語）",jp:"私はこの経験を面接で話せる。",answer:"I can talk about this experience in a job interview.",mistake:"This experience can say for company interview.",hint:"「話す」のは誰？→ I を主語に"},
+  {id:"1-10",type:1,typeName:"うなぎ文（モノが主語）",jp:"韓国の店は長時間営業している。",answer:"Shops in Korea are open for a very long time.",mistake:"Korea shops are very long time.",hint:"「営業している」→ are open を使う"},
+  {id:"1-11",type:1,typeName:"うなぎ文（モノが主語）",jp:"学生は留学でコミュニケーション能力を高められる。",answer:"Students can improve their communication skills by studying abroad.",mistake:"Studying abroad can improve communication skills.",hint:"「高める」のは誰？→ Students を主語に"},
+  {id:"1-12",type:1,typeName:"うなぎ文（モノが主語）",jp:"あなたはアルバイトでお金を稼げる。",answer:"You can earn money by working part-time.",mistake:"Part-time job can earn money.",hint:"「稼ぐ」のは誰？→ You を主語に"},
+  {id:"1-13",type:1,typeName:"うなぎ文（モノが主語）",jp:"あなたはこの本で多くのことを学べる。",answer:"You can learn many things from this book.",mistake:"This book can learn many things.",hint:"「学ぶ」のは誰？→ You を主語に"},
+  {id:"1-14",type:1,typeName:"うなぎ文（モノが主語）",jp:"私たちはインターネットで情報を得られる。",answer:"We can get information through the internet.",mistake:"The internet can get information.",hint:"「得る」のは誰？→ We を主語に"},
+  {id:"1-15",type:1,typeName:"うなぎ文（モノが主語）",jp:"あなたはスポーツで体力をつけられる。",answer:"You can build your stamina by playing sports.",mistake:"Sports can build stamina.",hint:"「つける」のは誰？→ You を主語に"},
+  {id:"1-16",type:1,typeName:"うなぎ文（モノが主語）",jp:"私たちはボランティア活動で社会に貢献できる。",answer:"We can contribute to society through volunteer activities.",mistake:"Volunteer activities can contribute to society.",hint:"「貢献する」のは誰？→ We を主語に"},
+  {id:"1-17",type:1,typeName:"うなぎ文（モノが主語）",jp:"あなたは旅行で新しい経験ができる。",answer:"You can have new experiences by traveling.",mistake:"Traveling can have new experiences.",hint:"「経験する」のは誰？→ You を主語に"},
+  {id:"1-18",type:1,typeName:"うなぎ文（モノが主語）",jp:"あなたは音楽でリラックスできる。",answer:"You can relax by listening to music.",mistake:"Music can relax.",hint:"「リラックスする」のは誰？→ You を主語に"},
+  {id:"2-01",type:2,typeName:"動詞が2つ続くエラー",jp:"海外の友達がいると自信につながる。",answer:"Having a global friend builds your confidence.",mistake:"You have a global friend is connecting your confidence.",hint:"動詞は1つだけ！ have と is を一緒に使わない"},
+  {id:"2-02",type:2,typeName:"動詞が2つ続くエラー",jp:"私たちは世界中の多くの人とつながれる。",answer:"We can connect with a lot of people in the world.",mistake:"We are can connect a lot of people in the world.",hint:"are と can を一緒に使わない → can だけにする"},
+  {id:"2-03",type:2,typeName:"動詞が2つ続くエラー",jp:"大学生は留学すべきだ。",answer:"University students should study abroad.",mistake:"University students should be study abroad.",hint:"should の後は動詞の原形 → should study"},
+  {id:"2-04",type:2,typeName:"動詞が2つ続くエラー",jp:"その経験が精神的成長を助ける。",answer:"These experiences help their mental growth.",mistake:"The experiences are grow up their mental.",hint:"are と grow を一緒に使わない → help を使う"},
+  {id:"2-05",type:2,typeName:"動詞が2つ続くエラー",jp:"グローバル化が世界中で進んでいる。",answer:"Globalization is progressing around the world.",mistake:"Globalization is progress around the world.",hint:"進行形は is + ~ing → is progressing"},
+  {id:"2-06",type:2,typeName:"動詞が2つ続くエラー",jp:"私はたくさんの食べ物を楽しめると思う。",answer:"I think I will enjoy many kinds of food.",mistake:"I think I will be enjoy many foods.",hint:"will の後は動詞の原形 → will enjoy"},
+  {id:"2-07",type:2,typeName:"動詞が2つ続くエラー",jp:"留学は私たちの成長につながる。",answer:"Studying abroad will help us grow.",mistake:"Studying abroad will be connect our grows.",hint:"will の後は動詞の原形 → will help"},
+  {id:"2-08",type:2,typeName:"動詞が2つ続くエラー",jp:"留学では私たちは教科書からだけ学ぶのではない。",answer:"Through studying abroad, we do not only learn from textbooks.",mistake:"Studying abroad experience is not learn only textbook.",hint:"is と learn を一緒に使わない"},
+  {id:"2-09",type:2,typeName:"動詞が2つ続くエラー",jp:"英語を話すことは重要だ。",answer:"Speaking English is important.",mistake:"Speaking English is be important.",hint:"is の後に be は不要 → is important"},
+  {id:"2-10",type:2,typeName:"動詞が2つ続くエラー",jp:"彼らは毎日練習している。",answer:"They are practicing every day.",mistake:"They are practice every day.",hint:"進行形は are + ~ing → are practicing"},
+  {id:"2-11",type:2,typeName:"動詞が2つ続くエラー",jp:"私たちは英語を勉強できる。",answer:"We can study English.",mistake:"We are can study English.",hint:"are と can を一緒に使わない → can だけ"},
+  {id:"2-12",type:2,typeName:"動詞が2つ続くエラー",jp:"彼女は上手に歌える。",answer:"She can sing well.",mistake:"She is can sing well.",hint:"is と can を一緒に使わない → can だけ"},
+  {id:"2-13",type:2,typeName:"動詞が2つ続くエラー",jp:"学生たちは一生懸命勉強しなければならない。",answer:"Students must study hard.",mistake:"Students must be study hard.",hint:"must の後は動詞の原形 → must study"},
+  {id:"2-14",type:2,typeName:"動詞が2つ続くエラー",jp:"私は将来教師になりたい。",answer:"I want to become a teacher in the future.",mistake:"I am want to become a teacher.",hint:"am と want を一緒に使わない → want だけ"},
+  {id:"2-15",type:2,typeName:"動詞が2つ続くエラー",jp:"彼は毎朝走っている。",answer:"He runs every morning.",mistake:"He is run every morning.",hint:"習慣は一般動詞だけ → runs（進行形なら is running）"},
+  {id:"2-16",type:2,typeName:"動詞が2つ続くエラー",jp:"私たちはその問題を解決すべきだ。",answer:"We should solve that problem.",mistake:"We should be solve that problem.",hint:"should の後は動詞の原形 → should solve"},
+  {id:"2-17",type:2,typeName:"動詞が2つ続くエラー",jp:"彼らは新しいスキルを学んでいる。",answer:"They are learning new skills.",mistake:"They are learn new skills.",hint:"進行形は are + ~ing → are learning"},
+  {id:"3-01",type:3,typeName:"主語または動詞がない文",jp:"学生はまず語学力を伸ばし、考え方を身につけられる。",answer:"First, students can improve their language skills and develop a new way of thinking.",mistake:"First, grow up language skill and have a mind.",hint:"「誰が」伸ばすのか？→ students can を追加"},
+  {id:"3-02",type:3,typeName:"主語または動詞がない文",jp:"あなたが英語だけの場所に行けば、英語が上達する。",answer:"If you go to a place where people speak only English, you can improve your English quickly.",mistake:"If speak English only people place, you can speak English very speedy.",hint:"if の後に主語 you を追加"},
+  {id:"3-03",type:3,typeName:"主語または動詞がない文",jp:"あなたは自分の力で生きる力を身につけられる。",answer:"You can gain the strength to live on your own.",mistake:"Gain the strength to survive on your own.",hint:"主語がない → You can を追加"},
+  {id:"3-04",type:3,typeName:"主語または動詞がない文",jp:"私はスピーキングとライティングを伸ばせると思う。",answer:"I think I can improve my speaking and writing skills.",mistake:"I think grow up my skills speaking and writing.",hint:"think の後に I can を追加"},
+  {id:"3-05",type:3,typeName:"主語または動詞がない文",jp:"私は多くの文化について学べると思う。",answer:"I think I can learn about many cultures.",mistake:"I think know many culture.",hint:"think の後に I can を追加"},
+  {id:"3-06",type:3,typeName:"主語または動詞がない文",jp:"私は将来、一人暮らしに役立つと思う。",answer:"I think it will help me live independently in the future.",mistake:"I think help for alone life style in the future.",hint:"think の後に it will を追加"},
+  {id:"3-07",type:3,typeName:"主語または動詞がない文",jp:"異文化を理解することが大切だ。",answer:"It is important to understand different cultures.",mistake:"Important to understand different cultures.",hint:"主語がない → It is を追加"},
+  {id:"3-08",type:3,typeName:"主語または動詞がない文",jp:"あなたは毎日英語を練習すべきだ。",answer:"You should practice English every day.",mistake:"Should practice English every day.",hint:"主語がない → You を追加"},
+  {id:"3-09",type:3,typeName:"主語または動詞がない文",jp:"あなたは新しい友達を作ることができる。",answer:"You can make new friends.",mistake:"Can make new friends.",hint:"主語がない → You を追加"},
+  {id:"3-10",type:3,typeName:"主語または動詞がない文",jp:"私は世界中を旅行したい。",answer:"I want to travel around the world.",mistake:"Want to travel around the world.",hint:"主語がない → I を追加"},
+  {id:"3-11",type:3,typeName:"主語または動詞がない文",jp:"私は英語が上手になりたい。",answer:"I want to become good at English.",mistake:"Want to become good at English.",hint:"主語がない → I を追加"},
+  {id:"3-12",type:3,typeName:"主語または動詞がない文",jp:"私は留学は楽しいと思う。",answer:"I think studying abroad is fun.",mistake:"I think fun studying abroad.",hint:"think の後に studying abroad is を追加"},
+  {id:"3-13",type:3,typeName:"主語または動詞がない文",jp:"私はたくさんの経験ができると思う。",answer:"I think I can have many experiences.",mistake:"I think many experiences.",hint:"think の後に I can have を追加（動詞がない）"},
+  {id:"3-14",type:3,typeName:"主語または動詞がない文",jp:"私は外国の食べ物を食べてみたい。",answer:"I want to try foreign food.",mistake:"Want to try foreign food.",hint:"主語がない → I を追加"},
+  {id:"3-15",type:3,typeName:"主語または動詞がない文",jp:"私は将来海外で働きたい。",answer:"I want to work abroad in the future.",mistake:"In the future, work abroad.",hint:"主語と動詞がない → I want to を追加"},
+  {id:"3-16",type:3,typeName:"主語または動詞がない文",jp:"私は英語を使う仕事に就きたい。",answer:"I want to get a job that uses English.",mistake:"Get a job that uses English.",hint:"主語がない → I want to を追加"},
+  {id:"4-01",type:4,typeName:"Because エラー（断片文）",jp:"私が夏を選んだ理由は、夏が好きだからです。",answer:"I chose summer. This is because I like summer.",mistake:"I chose summer. Because I like summer.",hint:"Because だけでは文にならない → This is because にするか、主節に because を付ける"},
+  {id:"4-02",type:4,typeName:"Because エラー（断片文）",jp:"行ったことのない場所だから行くべきだ。",answer:"You should go there because it is a place you have never been to.",mistake:"You should go there. Because, it is a place that you haven't been there.",hint:"Because の前にピリオドを打たない → 1つの文にする"},
+  {id:"4-03",type:4,typeName:"Because エラー（断片文）",jp:"高いので私は行きたくない。",answer:"I don't want to go because it's expensive.",mistake:"I don't want to go. Because, it's expensive.",hint:"Because の前にピリオドを打たない → 1つの文にする"},
+  {id:"4-04",type:4,typeName:"Because エラー（断片文）",jp:"英語力が上がるので私は留学したい。",answer:"I want to study abroad because I can improve my English.",mistake:"I want to study abroad. Because I can improve my English.",hint:"Because の前にピリオドを打たない → 1つの文にする"},
+  {id:"4-05",type:4,typeName:"Because エラー（断片文）",jp:"幸せになれると思うので私は留学したい。",answer:"I want to study abroad because I think it will make me very happy.",mistake:"I want to study abroad. Because I think very happy.",hint:"Because の前にピリオドを打たない + think の後に完全な文を"},
+  {id:"4-06",type:4,typeName:"Because エラー（断片文）",jp:"日本にいるので私たちは英語の練習ができない。",answer:"We cannot practice English because we are in Japan.",mistake:"We cannot practice English. Because we are inside Japan.",hint:"Because の前にピリオドを打たない → 1つの文にする"},
+  {id:"4-07",type:4,typeName:"Because エラー（断片文）",jp:"多くの人が英語を話すのであなたは友達を作れる。",answer:"You can make many friends because many people speak English.",mistake:"You can make many friends. Because, many people talk to English.",hint:"Because の前にピリオドを打たない → 1つの文にする"},
+  {id:"4-08",type:4,typeName:"Because エラー（断片文）",jp:"彼らにとって大切なことだから彼らは留学すべきだ。",answer:"They should study abroad because it is important for them.",mistake:"They should study abroad. Because it is important thing for them.",hint:"Because の前にピリオドを打たない → 1つの文にする"},
+  {id:"4-09",type:4,typeName:"Because エラー（断片文）",jp:"ネイティブの話を聞きたいので私は英語を勉強したい。",answer:"I want to study English because I want to listen to native speakers.",mistake:"I want to study English because listen to native speak.",hint:"because の後にも主語＋動詞が必要 → I want to"},
+  {id:"4-10",type:4,typeName:"Because エラー（断片文）",jp:"スキルを向上できるので私は大切だと思う。",answer:"I think it is important because it helps me improve my skills.",mistake:"I think it is important because skill up.",hint:"because の後にも完全な文が必要"},
+  {id:"4-11",type:4,typeName:"Because エラー（断片文）",jp:"天気がいいので私は公園に行きたい。",answer:"I want to go to the park because the weather is nice.",mistake:"I want to go to the park. Because the weather is nice.",hint:"Because の前にピリオドを打たない → 1つの文にする"},
+  {id:"4-12",type:4,typeName:"Because エラー（断片文）",jp:"英語が必要だから私は勉強している。",answer:"I am studying because English is necessary.",mistake:"I am studying. Because English is necessary.",hint:"Because の前にピリオドを打たない → 1つの文にする"},
+  {id:"4-13",type:4,typeName:"Because エラー（断片文）",jp:"疲れているので私は早く寝たい。",answer:"I want to go to bed early because I am tired.",mistake:"I want to go to bed early. Because I am tired.",hint:"Because の前にピリオドを打たない → 1つの文にする"},
+  {id:"4-14",type:4,typeName:"Because エラー（断片文）",jp:"お金がないので私は買えない。",answer:"I cannot buy it because I don't have money.",mistake:"I cannot buy it. Because I don't have money.",hint:"Because の前にピリオドを打たない → 1つの文にする"},
+  {id:"4-15",type:4,typeName:"Because エラー（断片文）",jp:"健康にいいので私は毎日運動している。",answer:"I exercise every day because it is good for my health.",mistake:"I exercise every day. Because it is good for health.",hint:"Because の前にピリオドを打たない → 1つの文にする"},
+  {id:"4-16",type:4,typeName:"Because エラー（断片文）",jp:"友達がいるので私はその国に行きたい。",answer:"I want to go to that country because I have friends there.",mistake:"I want to go to that country. Because I have friends there.",hint:"Because の前にピリオドを打たない → 1つの文にする"},
+  {id:"4-17",type:4,typeName:"Because エラー（断片文）",jp:"面白いので私はその授業が好きだ。",answer:"I like that class because it is interesting.",mistake:"I like that class. Because it is interesting.",hint:"Because の前にピリオドを打たない → 1つの文にする"},
+  {id:"5-01",type:5,typeName:"For Example エラー（断片文）",jp:"留学すると多くの新しいことを体験する。例えば生活様式、食べ物、言語などだ。",answer:"When you study abroad, you experience many new things, such as the local lifestyle, food, and language.",mistake:"When you study abroad, you experience many new things. For example, live, food and language.",hint:"For example の後に完全な文（主語＋動詞）が必要"},
+  {id:"5-02",type:5,typeName:"For Example エラー（断片文）",jp:"英語にはリスニング等の4つのスキルがある。",answer:"There are four skills in English, such as listening, writing, speaking, and reading.",mistake:"There are four skills. Such as, listening, writing, speaking and reading.",hint:"such as の前にピリオドを打たない → 1つの文にする"},
+  {id:"5-03",type:5,typeName:"For Example エラー（断片文）",jp:"国によって多くのことが異なる。例えば食べ物、服装、挨拶、身振りが異なる。",answer:"Many things are different between countries. For example, food, clothes, greetings, and gestures are all different.",mistake:"Many things are different. For example, foods, clothes, greetings and gestures.",hint:"For example の後に動詞が必要 → are all different を追加"},
+  {id:"5-04",type:5,typeName:"For Example エラー（断片文）",jp:"私はスピーキングやリーディングなど4技能すべてを向上させたい。",answer:"I want to improve all four English skills, such as speaking, reading, listening, and writing.",mistake:"I want to improve my English. For example, speaking, reading, listening, and writing.",hint:"具体例を挙げるには such as を使って1つの文にする"},
+  {id:"5-05",type:5,typeName:"For Example エラー（断片文）",jp:"私は多くのことを学べる。例えば食べ物、音楽、歴史、芸術について学べる。",answer:"I can learn about many things. For example, I can learn about food, music, history, and art.",mistake:"I can learn about many things. For example, food, music, history, and art.",hint:"For example の後に I can learn about を追加"},
+  {id:"5-06",type:5,typeName:"For Example エラー（断片文）",jp:"私は多くのことを自分でするようになった。例えば料理、皿洗い、掃除を自分でするようになった。",answer:"I started doing many things by myself. For example, I started cooking, washing dishes, and cleaning my room.",mistake:"I started doing many things by myself. For example, cooking, washing dishes, and cleaning my room.",hint:"For example の後に I started を追加"},
+  {id:"5-07",type:5,typeName:"For Example エラー（断片文）",jp:"国によって多くの違いがある。例えば肌の色、食べ物、マナーに違いがある。",answer:"There are many differences between countries. For example, there are differences in skin color, food, and manners.",mistake:"There are many differences. For example, skin color, food, maner.",hint:"For example の後に there are differences in を追加"},
+  {id:"5-08",type:5,typeName:"For Example エラー（断片文）",jp:"外国の文化は日本と違う。例えば家の中で靴を脱がない。",answer:"Foreign culture is different from Japan. For example, people do not take off their shoes inside the house.",mistake:"Foreign culture is different from Japan. For example, No take off shoes.",hint:"For example の後に people do not を追加"},
+  {id:"5-09",type:5,typeName:"For Example エラー（断片文）",jp:"私は日常生活について学びたい。例えば食事や生活様式などだ。",answer:"I want to learn about everyday life, such as meals and living styles.",mistake:"I want to learn about everyday life. Such as, meal, living.",hint:"such as の前にピリオドを打たない → 1つの文にする"},
+  {id:"5-10",type:5,typeName:"For Example エラー（断片文）",jp:"私は英語を練習する方法がある。例えば毎日英語で日記を書いている。",answer:"I have ways to practice English. For example, I write a diary in English every day.",mistake:"I have ways to practice English. For example, diary in English every day.",hint:"For example の後に I write を追加"},
+  {id:"5-11",type:5,typeName:"For Example エラー（断片文）",jp:"私はスポーツが好きだ。例えばサッカーやバスケットボールが好きだ。",answer:"I like sports, such as soccer and basketball.",mistake:"I like sports. For example, soccer and basketball.",hint:"such as を使って1つの文にする、または For example の後に I like を追加"},
+  {id:"5-12",type:5,typeName:"For Example エラー（断片文）",jp:"私はいろいろな方法で通学している。例えば電車やバスで通学している。",answer:"I go to school in different ways. For example, I go to school by train or bus.",mistake:"I go to school in different ways. For example, train and bus.",hint:"For example の後に I go to school by を追加"},
+  {id:"5-13",type:5,typeName:"For Example エラー（断片文）",jp:"私は日本食が好きだ。例えば寿司やラーメンが好きだ。",answer:"I like Japanese food, such as sushi and ramen.",mistake:"I like Japanese food. For example, sushi and ramen.",hint:"such as を使って1つの文にする、または For example の後に I like を追加"},
+  {id:"5-14",type:5,typeName:"For Example エラー（断片文）",jp:"私はいろいろな趣味がある。例えば映画を見たり音楽を聴いたりする。",answer:"I have many hobbies. For example, I watch movies and listen to music.",mistake:"I have many hobbies. For example, movies and music.",hint:"For example の後に I watch ... and listen to を追加"},
+  {id:"5-15",type:5,typeName:"For Example エラー（断片文）",jp:"私は健康的な習慣がある。例えば朝早く起きて運動している。",answer:"I have healthy habits. For example, I wake up early and exercise in the morning.",mistake:"I have healthy habits. For example, wake up early and exercise.",hint:"For example の後に主語 I を追加"},
+  {id:"5-16",type:5,typeName:"For Example エラー（断片文）",jp:"私はいろいろな場所で勉強している。例えば図書館やカフェで勉強している。",answer:"I study in different places. For example, I study at the library or a cafe.",mistake:"I study in different places. For example, library and cafe.",hint:"For example の後に I study at を追加"},
+];
+
+const TYPE_META = {
+  1:{emoji:"🐍",color:"#C62828",bg:"#FFEBEE",border:"#EF9A9A",label:"Type 1",count:18,name:"うなぎ文（モノが主語）",desc:"日本語の「〜は〜できる」をそのまま英語にすると、モノが主語になってしまいます。英語では「人」を主語にしましょう。"},
+  2:{emoji:"✌️",color:"#E65100",bg:"#FFF3E0",border:"#FFCC80",label:"Type 2",count:17,name:"動詞が2つ続くエラー",desc:"be動詞と一般動詞を一緒に使ってしまうエラーです。英語では1つの文に動詞は1つが基本です。"},
+  3:{emoji:"❓",color:"#2E7D32",bg:"#E8F5E9",border:"#A5D6A7",label:"Type 3",count:16,name:"主語または動詞がない文",desc:"日本語では省略できる主語や動詞も、英語では必ず「主語＋動詞」のセットが必要です。"},
+  4:{emoji:"🔗",color:"#1565C0",bg:"#E3F2FD",border:"#90CAF9",label:"Type 4",count:17,name:"Because エラー（断片文）",desc:"Because だけで文を終わらせてはいけません。必ず結論（主節）が必要です。"},
+  5:{emoji:"📝",color:"#6A1B9A",bg:"#F3E5F5",border:"#CE93D8",label:"Type 5",count:16,name:"For Example エラー（断片文）",desc:"For example の後に単語を並べるだけでなく、完全な文（主語＋動詞）にしましょう。"},
+};
+
+function normalize(s){return s.toLowerCase().replace(/['']/g,"'").replace(/[""]/g,'"').replace(/\s+/g," ").replace(/[.,!?;:]+$/g,"").trim()}
+
+function checkAnswer(input,answer){
+  const n=normalize(input),a=normalize(answer);
+  if(n===a)return"correct";
+  const w1=n.split(" "),w2=a.split(" ");
+  let c=0;const s2=new Set(w2);
+  w1.forEach(w=>{if(s2.has(w))c++});
+  const sim=c/Math.max(w1.length,w2.length);
+  if(sim>=0.5)return"close";
+  return"wrong";
+}
+
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+function App(){
+  const[screen,setScreen]=useState("home");
+  const[selectedType,setSelectedType]=useState(null);
+  const[questions,setQuestions]=useState([]);
+  const[currentIdx,setCurrentIdx]=useState(0);
+  const[userInput,setUserInput]=useState("");
+  const[result,setResult]=useState(null);
+  const[showHint,setShowHint]=useState(false);
+  const[showMistake,setShowMistake]=useState(false);
+  const[score,setScore]=useState({correct:0,close:0,wrong:0});
+  const[isListening,setIsListening]=useState(false);
+  const inputRef=useRef(null);
+  const recRef=useRef(null);
+
+  const startListening=useCallback(()=>{
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){alert("お使いのブラウザは音声認識に対応していません。Chrome をお使いください。");return}
+    const r=new SR();r.lang="en-US";r.interimResults=true;r.continuous=false;
+    r.onresult=(e)=>{let f="",im="";for(let i=0;i<e.results.length;i++){if(e.results[i].isFinal)f+=e.results[i][0].transcript;else im+=e.results[i][0].transcript}setUserInput(f||im)};
+    r.onend=()=>setIsListening(false);
+    r.onerror=()=>setIsListening(false);
+    recRef.current=r;r.start();setIsListening(true);
+  },[]);
+
+  const stopListening=useCallback(()=>{if(recRef.current)recRef.current.stop();setIsListening(false)},[]);
+
+  const startQuiz=(type)=>{
+    let qs;
+    if(type==="random"){qs=shuffle(QUESTIONS);setSelectedType("random")}
+    else{qs=shuffle(QUESTIONS.filter(q=>q.type===type));setSelectedType(type)}
+    setQuestions(qs);setCurrentIdx(0);setUserInput("");setResult(null);setShowHint(false);setShowMistake(false);setScore({correct:0,close:0,wrong:0});setScreen("quiz");
+  };
+
+  const handleSubmit=()=>{if(!userInput.trim())return;const q=questions[currentIdx];const res=checkAnswer(userInput,q.answer);setResult(res);setScore(p=>({...p,[res]:p[res]+1}))};
+
+  const handleNext=()=>{
+    if(currentIdx+1>=questions.length){setScreen("complete");return}
+    setCurrentIdx(p=>p+1);setUserInput("");setResult(null);setShowHint(false);setShowMistake(false);
+    setTimeout(()=>inputRef.current&&inputRef.current.focus(),100);
+  };
+
+  const handleRetry=()=>{setUserInput("");setResult(null);setTimeout(()=>inputRef.current&&inputRef.current.focus(),100)};
+
+  const q=questions[currentIdx];
+  const meta=q?TYPE_META[q.type]:null;
+  const progress=questions.length>0?((currentIdx+(result?1:0))/questions.length)*100:0;
+
+  if(screen==="home")return(
+    <div style={{maxWidth:640,margin:"0 auto",padding:"40px 20px 60px",display:"flex",flexDirection:"column",gap:12}}>
+      <div style={{animation:"fadeInUp 0.5s ease-out"}}>
+        <h1 style={{fontFamily:"'Outfit','Noto Sans JP'",fontSize:32,fontWeight:900,textAlign:"center",color:"#1A1612",letterSpacing:-0.5,marginBottom:4}}>英作文エラー練習</h1>
+        <p style={{textAlign:"center",color:"#8C8278",fontSize:14,marginBottom:20}}>日本語を英語に訳して、よくあるエラーを克服しよう</p>
+      </div>
+      <button onClick={()=>startQuiz("random")} style={{display:"flex",alignItems:"center",gap:14,padding:"18px 20px",background:"#fff",borderRadius:16,border:"2px dashed #D4CEC6",cursor:"pointer",textAlign:"left",width:"100%",transition:"all 0.2s",boxShadow:"0 2px 8px rgba(0,0,0,0.06)",animation:"fadeInUp 0.5s ease-out 0.1s both"}}>
+        <span style={{fontSize:28}}>🎯</span>
+        <div><div style={{fontWeight:700,fontSize:16,color:"#1A1612"}}>すべてのタイプからランダム出題</div><div style={{fontSize:13,color:"#8C8278",marginTop:2}}>全84問からランダムに出題</div></div>
+      </button>
+      {[1,2,3,4,5].map((type,i)=>{const m=TYPE_META[type];return(
+        <button key={type} onClick={()=>startQuiz(type)} style={{display:"block",width:"100%",padding:"16px 20px",background:"#fff",borderRadius:14,borderLeft:"4px solid "+m.color,border:"1px solid #EDE8E3",borderLeftWidth:4,borderLeftStyle:"solid",borderLeftColor:m.color,cursor:"pointer",textAlign:"left",transition:"all 0.2s",boxShadow:"0 1px 4px rgba(0,0,0,0.04)",animation:`fadeInUp 0.5s ease-out ${0.15+i*0.06}s both`}}>
+          <div style={{display:"flex",alignItems:"center",gap:12}}>
+            <span style={{fontSize:32,lineHeight:1}}>{m.emoji}</span>
+            <div style={{flex:1}}>
+              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}>
+                <span style={{display:"inline-block",padding:"2px 10px",borderRadius:6,color:"#fff",fontSize:12,fontWeight:700,fontFamily:"Outfit",background:m.color}}>{m.label}</span>
+                <span style={{fontSize:12,color:"#8C8278"}}>{m.count}問</span>
+              </div>
+              <div style={{fontWeight:700,fontSize:15,color:"#1A1612",marginBottom:4}}>{m.name}</div>
+              <div style={{fontSize:12.5,color:"#8C8278",lineHeight:1.6}}>{m.desc}</div>
+            </div>
+            <span style={{color:"#C8C0B8",fontSize:20}}>›</span>
+          </div>
+        </button>
+      )})}
+    </div>
+  );
+
+  if(screen==="quiz"&&q)return(
+    <div style={{maxWidth:640,margin:"0 auto",padding:"0 16px 80px",minHeight:"100vh"}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"16px 0 8px"}}>
+        <button onClick={()=>setScreen("home")} style={{background:"none",border:"none",fontSize:14,color:"#8C8278",cursor:"pointer",padding:"4px 0"}}>← 戻る</button>
+        <div style={{display:"flex",alignItems:"center",gap:8}}>
+          <span style={{display:"inline-block",padding:"2px 8px",borderRadius:5,color:"#fff",fontSize:11,fontWeight:700,fontFamily:"Outfit",background:meta.color}}>{selectedType==="random"?"ランダム":meta.label}</span>
+          <span style={{fontSize:13,color:"#8C8278",fontFamily:"Outfit",fontWeight:500}}>{currentIdx+1} / {questions.length}</span>
+        </div>
+      </div>
+
+      <div style={{height:4,background:"#EDE8E3",borderRadius:2,overflow:"hidden",marginBottom:20}}>
+        <div style={{height:"100%",borderRadius:2,transition:"width 0.4s ease-out",width:progress+"%",background:meta.color}}/>
+      </div>
+
+      <div style={{background:"#fff",borderRadius:16,padding:"24px 20px",boxShadow:"0 2px 12px rgba(0,0,0,0.06)",marginBottom:16,animation:"fadeInUp 0.4s ease-out"}}>
+        <div style={{fontSize:13,fontWeight:700,marginBottom:12,display:"flex",alignItems:"center",gap:6,color:meta.color}}>
+          <span>{meta.emoji}</span> {meta.name}
+        </div>
+        <div style={{fontSize:22,fontWeight:700,color:"#1A1612",lineHeight:1.6}}>{q.jp}</div>
+        <div style={{display:"flex",gap:8,marginTop:16}}>
+          <button onClick={()=>setShowHint(!showHint)} style={{padding:"7px 14px",borderRadius:20,border:"1.5px solid "+(showHint?"#FFB300":"#D4CEC6"),background:showHint?"#FFF8E1":"#fff",fontSize:13,cursor:"pointer",transition:"all 0.2s",color:showHint?"#F57F17":"#5C564E"}}>💡 ヒント</button>
+          <button onClick={()=>setShowMistake(!showMistake)} style={{padding:"7px 14px",borderRadius:20,border:"1.5px solid "+(showMistake?"#EF5350":"#D4CEC6"),background:showMistake?"#FFEBEE":"#fff",fontSize:13,cursor:"pointer",transition:"all 0.2s",color:showMistake?"#C62828":"#5C564E"}}>🔊 よくある間違い</button>
+        </div>
+        {showHint&&<div style={{marginTop:12,padding:"12px 16px",background:"#FFFDE7",borderRadius:10,fontSize:14,color:"#F57F17",lineHeight:1.6,display:"flex",gap:8}}>💡 {q.hint}</div>}
+        {showMistake&&<div style={{marginTop:8,padding:"12px 16px",background:"#FFF5F5",borderRadius:10,fontSize:14,lineHeight:1.6}}><span style={{color:"#C62828",fontWeight:700}}>✗</span> <span style={{color:"#C62828"}}>よくある間違い: </span><span style={{color:"#C62828",fontStyle:"italic"}}>{q.mistake}</span></div>}
+      </div>
+
+      {!result&&(
+        <div style={{background:"#fff",borderRadius:16,padding:16,boxShadow:"0 2px 12px rgba(0,0,0,0.06)",animation:"fadeInUp 0.4s ease-out 0.1s both"}}>
+          <textarea ref={inputRef} value={userInput} onChange={e=>setUserInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();handleSubmit()}}} placeholder="英語で入力してください..." style={{width:"100%",border:"none",fontSize:16,resize:"none",fontFamily:"'Outfit','Noto Sans JP'",lineHeight:1.6,color:"#1A1612",background:"transparent"}} rows={3}/>
+          <div style={{display:"flex",justifyContent:"flex-end",gap:10,marginTop:8}}>
+            <button onClick={isListening?stopListening:startListening} style={{width:44,height:44,borderRadius:"50%",border:"none",background:isListening?"#C62828":"#F5F0EB",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all 0.2s",animation:isListening?"micPulse 1.5s infinite":"none"}}>
+              {isListening
+                ?<svg width="22" height="22" viewBox="0 0 24 24" fill="white"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+                :<svg width="22" height="22" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" fill="#888"/><path d="M19 10v2a7 7 0 0 1-14 0v-2" fill="none" stroke="#888" strokeWidth="2" strokeLinecap="round"/><line x1="12" y1="19" x2="12" y2="23" fill="none" stroke="#888" strokeWidth="2" strokeLinecap="round"/></svg>
+              }
+            </button>
+            <button onClick={handleSubmit} disabled={!userInput.trim()} style={{width:44,height:44,borderRadius:"50%",border:"none",background:"#1565C0",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",opacity:userInput.trim()?1:0.4,transition:"all 0.2s"}}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {result&&(
+        <div style={{animation:"fadeInUp 0.4s ease-out"}}>
+          <div style={{background:"#fff",borderRadius:16,overflow:"hidden",boxShadow:"0 2px 12px rgba(0,0,0,0.06)",marginBottom:16}}>
+            <div style={{display:"flex",alignItems:"center",gap:10,padding:"20px 20px 12px"}}>
+              <span style={{fontSize:36,animation:"pulse 0.6s ease-out"}}>{result==="correct"?"🎉":result==="close"?"💪":"📖"}</span>
+              <span style={{fontSize:20,fontWeight:700,color:result==="correct"?"#2E7D32":result==="close"?"#E65100":"#C62828"}}>{result==="correct"?"正解！すばらしい！":result==="close"?"惜しい！もう少し！":"もう一度挑戦しよう！"}</span>
+            </div>
+            <div style={{padding:"0 20px 20px"}}>
+              <div style={{fontSize:12,color:"#8C8278",marginBottom:4}}>あなたの回答：</div>
+              <div style={{fontSize:17,lineHeight:1.6,fontFamily:"'Outfit','Noto Sans JP'",color:result==="correct"?"#2E7D32":"#C62828",textDecoration:result!=="correct"?"line-through":"none"}}>{userInput}</div>
+              {result!=="correct"&&(<><div style={{fontSize:12,color:"#8C8278",marginBottom:4,marginTop:12}}>正しい英文：</div><div style={{fontSize:17,lineHeight:1.6,fontFamily:"'Outfit','Noto Sans JP'",color:"#1565C0",fontWeight:600}}>{q.answer}</div></>)}
+              <div style={{marginTop:16,padding:"10px 14px",background:"#FAF8F5",borderRadius:8,fontSize:13,color:"#8C8278"}}>📖 {result==="correct"?"完璧です！次の問題に進みましょう。":"模範解答と比較してみましょう。"}</div>
+            </div>
+          </div>
+          <div style={{display:"flex",gap:12}}>
+            {result!=="correct"&&<button onClick={handleRetry} style={{flex:1,padding:14,borderRadius:14,border:"2px solid #D4CEC6",background:"#fff",fontSize:15,fontWeight:600,cursor:"pointer",color:"#5C564E"}}>↻ もう一度</button>}
+            <button onClick={handleNext} style={{flex:1,padding:14,borderRadius:14,border:"none",background:"#C62828",color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer"}}>次の問題 ›</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+  if(screen==="complete"){
+    const pct=Math.round((score.correct/questions.length)*100);
+    return(
+      <div style={{maxWidth:640,margin:"0 auto",padding:"60px 20px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",minHeight:"100vh"}}>
+        <div style={{animation:"fadeInUp 0.5s ease-out",textAlign:"center"}}>
+          <div style={{fontSize:64,marginBottom:16}}>🎓</div>
+          <h2 style={{fontSize:26,fontWeight:900,color:"#1A1612",marginBottom:4,fontFamily:"'Outfit','Noto Sans JP'"}}>おつかれさまでした！</h2>
+          <p style={{fontSize:14,color:"#8C8278",marginBottom:32}}>全 {questions.length} 問完了</p>
+          <div style={{display:"flex",gap:12,marginBottom:32}}>
+            <div style={{flex:1,padding:"16px 12px",background:"#fff",borderRadius:14,border:"2px solid #4CAF50",textAlign:"center"}}><div style={{fontSize:32,fontWeight:700,color:"#2E7D32",fontFamily:"Outfit"}}>{score.correct}</div><div style={{fontSize:13,color:"#5C564E",marginTop:4}}>🎉 正解</div></div>
+            <div style={{flex:1,padding:"16px 12px",background:"#fff",borderRadius:14,border:"2px solid #FF9800",textAlign:"center"}}><div style={{fontSize:32,fontWeight:700,color:"#E65100",fontFamily:"Outfit"}}>{score.close}</div><div style={{fontSize:13,color:"#5C564E",marginTop:4}}>💪 惜しい</div></div>
+            <div style={{flex:1,padding:"16px 12px",background:"#fff",borderRadius:14,border:"2px solid #F44336",textAlign:"center"}}><div style={{fontSize:32,fontWeight:700,color:"#C62828",fontFamily:"Outfit"}}>{score.wrong}</div><div style={{fontSize:13,color:"#5C564E",marginTop:4}}>📖 不正解</div></div>
+          </div>
+          <div style={{position:"relative",width:120,height:120,margin:"0 auto 32px",display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <svg width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#EDE8E3" strokeWidth="8"/><circle cx="60" cy="60" r="52" fill="none" stroke="#2E7D32" strokeWidth="8" strokeDasharray={pct*3.267+" 326.7"} strokeLinecap="round" transform="rotate(-90 60 60)" style={{transition:"stroke-dasharray 1s ease-out"}}/></svg>
+            <div style={{position:"absolute",fontSize:28,fontWeight:700,fontFamily:"Outfit",color:"#2E7D32"}}>{pct}%</div>
+          </div>
+          <button onClick={()=>setScreen("home")} style={{padding:"14px 48px",borderRadius:14,border:"none",background:"#1A1612",color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer"}}>ホームに戻る</button>
+        </div>
+      </div>
+    );
+  }
+  return null;
+}
+
+ReactDOM.render(<App/>,document.getElementById("root"));
+</script>
+</body>
+</html>
