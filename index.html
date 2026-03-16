@@ -207,6 +207,9 @@ function App(){
 
   if(screen==="home")return(
     <div style={{maxWidth:640,margin:"0 auto",padding:"40px 20px 60px",display:"flex",flexDirection:"column",gap:12}}>
+      <div style={{textAlign:"center",marginBottom:4,animation:"fadeInUp 0.4s ease-out"}}>
+        <p style={{fontSize:13,color:"#C8C0B8",letterSpacing:0.5,fontWeight:500}}>実践女子大学国際学部英語学習ツール</p>
+      </div>
       <div style={{animation:"fadeInUp 0.5s ease-out"}}>
         <h1 style={{fontFamily:"'Outfit','Noto Sans JP'",fontSize:32,fontWeight:900,textAlign:"center",color:"#1A1612",letterSpacing:-0.5,marginBottom:4}}>英作文エラー練習</h1>
         <p style={{textAlign:"center",color:"#8C8278",fontSize:14,marginBottom:20}}>日本語を英語に訳して、よくあるエラーを克服しよう</p>
@@ -231,11 +234,14 @@ function App(){
           </div>
         </button>
       )})}
+      <div style={{textAlign:"center",marginTop:16,paddingTop:16,borderTop:"1px solid #EDE8E3"}}>
+        <p style={{fontSize:12,color:"#B0A89F"}}>© 2026 Jissen Women's University, Faculty of International Studies</p>
+      </div>
     </div>
   );
 
   if(screen==="quiz"&&q)return(
-    <div style={{maxWidth:640,margin:"0 auto",padding:"0 16px 80px",minHeight:"100vh"}}>
+    <div style={{maxWidth:640,margin:"0 auto",padding:"0 16px 80px",minHeight:"100vh",display:"flex",flexDirection:"column"}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"16px 0 8px"}}>
         <button onClick={()=>setScreen("home")} style={{background:"none",border:"none",fontSize:14,color:"#8C8278",cursor:"pointer",padding:"4px 0"}}>← 戻る</button>
         <div style={{display:"flex",alignItems:"center",gap:8}}>
@@ -299,6 +305,9 @@ function App(){
           </div>
         </div>
       )}
+      <div style={{textAlign:"center",marginTop:32,paddingTop:16,borderTop:"1px solid #EDE8E3"}}>
+        <p style={{fontSize:12,color:"#B0A89F"}}>© 2026 Jissen Women's University, Faculty of International Studies</p>
+      </div>
     </div>
   );
 
@@ -321,6 +330,9 @@ function App(){
           </div>
           <button onClick={()=>setScreen("home")} style={{padding:"14px 48px",borderRadius:14,border:"none",background:"#1A1612",color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer"}}>ホームに戻る</button>
         </div>
+      </div>
+      <div style={{textAlign:"center",marginTop:32,paddingTop:16,borderTop:"1px solid #EDE8E3"}}>
+        <p style={{fontSize:12,color:"#B0A89F"}}>© 2026 Jissen Women's University, Faculty of International Studies</p>
       </div>
     );
   }
