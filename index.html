@@ -942,19 +942,40 @@ function App() {
     r.lang = "en-US";
     r.continuous = false;
     r.interimResults = true;
+    r.maxAlternatives = 3; // 改善策1: 複数候補を取得
+
+    // 改善策3: 確定テキストの後処理（文頭大文字化・末尾ピリオド補完）
+    const normalizeTranscript = (text) => {
+      if (!text) return text;
+      text = text.trim();
+      text = text.charAt(0).toUpperCase() + text.slice(1);
+      if (!/[.!?]$/.test(text)) text = text + ".";
+      return text;
+    };
 
     r.onresult = e => {
       if (sessionId !== sessionIdRef.current) return;
       let interim = "";
       let final = "";
       for (let i = e.resultIndex; i < e.results.length; i++) {
-        const t = e.results[i][0].transcript;
-        if (e.results[i].isFinal) final += t;
-        else interim += t;
+        if (e.results[i].isFinal) {
+          // 改善策1: confidenceが最も高い候補を選択
+          let best = e.results[i][0];
+          for (let j = 1; j < e.results[i].length; j++) {
+            if (e.results[i][j].confidence > best.confidence) {
+              best = e.results[i][j];
+            }
+          }
+          final += best.transcript;
+        } else {
+          interim += e.results[i][0].transcript;
+        }
       }
       setInterimText(interim);
       if (final) {
-        accumulatedRef.current = (accumulatedRef.current + " " + final).trim();
+        // 改善策3: 後処理を適用
+        const normalized = normalizeTranscript(final);
+        accumulatedRef.current = (accumulatedRef.current + " " + normalized).trim();
         setUserInput(accumulatedRef.current);
         setInterimText("");
       }
@@ -1001,8 +1022,11 @@ function App() {
     accumulatedRef.current = userInput;
     isListeningRef.current = true;
     setIsListening(true);
-    setInterimText("");
-    setTimeout(() => { startSession(newSessionId); }, 150);
+    setInterimText("\u30DE\u30A4\u30AF\u6E96\u5099\u4E2D..."); // 改善策2: 準備中表示
+    setTimeout(() => {
+      if (isListeningRef.current) setInterimText(""); // 準備完了後はクリア
+      startSession(newSessionId);
+    }, 300); // 改善策2: 150ms→300msに延長し冠頭欠けを防止
   }, [startSession, userInput]);
 
   const stopListening = useCallback(() => {
