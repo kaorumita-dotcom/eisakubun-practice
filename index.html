@@ -925,35 +925,92 @@ function App() {
     wrong: 0
   });
   const [isListening, setIsListening] = useState(false);
+  const [interimText, setInterimText] = useState("");
   const inputRef = useRef(null);
   const recRef = useRef(null);
+  const isListeningRef = useRef(false);
+  const sessionIdRef = useRef(0);
+  const accumulatedRef = useRef("");
+
+  const startSession = useCallback((sessionId) => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR || !isListeningRef.current) return;
+    if (sessionId !== sessionIdRef.current) return;
+
+    const r = new SR();
+    recRef.current = r;
+    r.lang = "en-US";
+    r.continuous = false;
+    r.interimResults = true;
+
+    r.onresult = e => {
+      if (sessionId !== sessionIdRef.current) return;
+      let interim = "";
+      let final = "";
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const t = e.results[i][0].transcript;
+        if (e.results[i].isFinal) final += t;
+        else interim += t;
+      }
+      setInterimText(interim);
+      if (final) {
+        accumulatedRef.current = (accumulatedRef.current + " " + final).trim();
+        setUserInput(accumulatedRef.current);
+        setInterimText("");
+      }
+    };
+
+    r.onerror = e => {
+      if (sessionId !== sessionIdRef.current) return;
+      if (e.error === "no-speech" || e.error === "aborted") return;
+      setIsListening(false);
+      isListeningRef.current = false;
+      setInterimText("");
+    };
+
+    r.onend = () => {
+      if (sessionId !== sessionIdRef.current) return;
+      setInterimText("");
+      if (isListeningRef.current) {
+        setTimeout(() => {
+          if (isListeningRef.current && sessionId === sessionIdRef.current) {
+            startSession(sessionId);
+          }
+        }, 150);
+      }
+    };
+
+    try { r.start(); } catch(e) {}
+  }, []);
+
   const startListening = useCallback(() => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SR) {
       alert("お使いのブラウザは音声認識に対応していません。Chrome をお使いください。");
       return;
     }
-    const r = new SR();
-    r.lang = "en-US";
-    r.interimResults = true;
-    r.continuous = false;
-    r.onresult = e => {
-      let f = "",
-        im = "";
-      for (let i = 0; i < e.results.length; i++) {
-        if (e.results[i].isFinal) f += e.results[i][0].transcript;else im += e.results[i][0].transcript;
-      }
-      setUserInput(f || im);
-    };
-    r.onend = () => setIsListening(false);
-    r.onerror = () => setIsListening(false);
-    recRef.current = r;
-    r.start();
+    const newSessionId = sessionIdRef.current + 1;
+    sessionIdRef.current = newSessionId;
+    if (recRef.current) {
+      try { recRef.current.abort(); } catch(e) {}
+      recRef.current = null;
+    }
+    accumulatedRef.current = userInput;
+    isListeningRef.current = true;
     setIsListening(true);
-  }, []);
+    setInterimText("");
+    setTimeout(() => { startSession(newSessionId); }, 150);
+  }, [startSession, userInput]);
+
   const stopListening = useCallback(() => {
-    if (recRef.current) recRef.current.stop();
+    isListeningRef.current = false;
+    sessionIdRef.current += 1;
+    if (recRef.current) {
+      try { recRef.current.abort(); } catch(e) {}
+      recRef.current = null;
+    }
     setIsListening(false);
+    setInterimText("");
   }, []);
   const startQuiz = type => {
     let qs;
@@ -964,6 +1021,12 @@ function App() {
       qs = shuffle(QUESTIONS.filter(q => q.type === type));
       setSelectedType(type);
     }
+    isListeningRef.current = false;
+    sessionIdRef.current += 1;
+    if (recRef.current) { try { recRef.current.abort(); } catch(e) {} recRef.current = null; }
+    setIsListening(false);
+    setInterimText("");
+    accumulatedRef.current = "";
     setQuestions(qs);
     setCurrentIdx(0);
     setUserInput("");
@@ -988,6 +1051,12 @@ function App() {
     }));
   };
   const handleNext = () => {
+    isListeningRef.current = false;
+    sessionIdRef.current += 1;
+    if (recRef.current) { try { recRef.current.abort(); } catch(e) {} recRef.current = null; }
+    setIsListening(false);
+    setInterimText("");
+    accumulatedRef.current = "";
     if (currentIdx + 1 >= questions.length) {
       setScreen("complete");
       return;
@@ -1000,6 +1069,12 @@ function App() {
     setTimeout(() => inputRef.current && inputRef.current.focus(), 100);
   };
   const handleRetry = () => {
+    isListeningRef.current = false;
+    sessionIdRef.current += 1;
+    if (recRef.current) { try { recRef.current.abort(); } catch(e) {} recRef.current = null; }
+    setIsListening(false);
+    setInterimText("");
+    accumulatedRef.current = "";
     setUserInput("");
     setResult(null);
     setTimeout(() => inputRef.current && inputRef.current.focus(), 100);
@@ -1445,7 +1520,16 @@ function App() {
       textAlign: "center",
       marginTop: 8
     }
-  }, "\uD83C\uDF99 \u97F3\u58F0\u5165\u529B\u5F8C\u3001\u30C6\u30AD\u30B9\u30C8\u3092\u4FEE\u6B63\u3057\u3066\u304B\u3089\u9001\u4FE1\u3067\u304D\u307E\u3059")), result && /*#__PURE__*/React.createElement("div", {
+  }, "\uD83C\uDF99 \u97F3\u58F0\u5165\u529B\u5F8C\u3001\u30C6\u30AD\u30B9\u30C8\u3092\u4FEE\u6B63\u3057\u3066\u304B\u3089\u9001\u4FE1\u3067\u304D\u307E\u3059"), interimText && /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 13,
+      color: "#B0A89F",
+      fontStyle: "italic",
+      marginTop: 4,
+      paddingLeft: 4,
+      lineHeight: 1.5
+    }
+  }, interimText))), result && /*#__PURE__*/React.createElement("div", {
     style: {
       animation: "fadeInUp 0.4s ease-out"
     }
