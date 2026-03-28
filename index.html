@@ -64,8 +64,8 @@ const QUESTIONS = [
   {id:"2-11",type:2,typeName:"長い主語型エラー",jp:"異文化を理解することは国際社会で必要だ。",answer:"Understanding different cultures is necessary in a global society.",mistake:"I understand different cultures is necessary in global society.",hint:"文の動詞 is の前が文(S+V)になっていない？→ 動名詞にしよう。ヒント表現: understand different cultures（異文化を理解する）/ necessary in a global society（国際社会で必要）"},
   {id:"2-12",type:2,typeName:"長い主語型エラー",jp:"SNSを使いすぎることは問題がある。",answer:"Using social media too much is problematic.",mistake:"I use SNS too much is have problems.",hint:"文の動詞 is の前が文(S+V)になっていない？→ 動名詞にしよう。ヒント表現: use social media too much（SNSを使いすぎる）/ problematic（問題がある）"},
   {id:"2-13",type:2,typeName:"長い主語型エラー",jp:"ボランティアに参加することは社会勉強になる。",answer:"Participating in volunteer work is a good way to learn about society.",mistake:"I participate volunteer is learning society.",hint:"文の動詞 is の前が文(S+V)になっていない？→ 動名詞にしよう。ヒント表現: participate in volunteer work（ボランティアに参加する）/ a good way to learn about society（社会勉強になる）"},
-  {id:"46067",type:2,typeName:"長い主語型エラー",jp:"自分の意見を英語で伝えることは難しい。",answer:"Expressing your opinion in English is difficult.",mistake:"I express my opinion in English is difficult.",hint:"文の動詞 is の前が文(S+V)になっていない？→ 動名詞にしよう。ヒント表現: express your opinion in English（自分の意見を英語で伝えるる）/ difficult（難しい）"},
-  {id:"46068",type:2,typeName:"長い主語型エラー",jp:"他の国の料理を食べることは文化を知るきっかけとなる。",answer:"Eating food from other countries is a good chance to learn about their culture.",mistake:"I eat other country food is chance to know culture.",hint:"文の動詞 is の前が文(S+V)になっていない？→ 動名詞にしよう。ヒント表現: eat food from other countries（他の国の料理を食べる）/ a good chance（良いきっかけ）/ to learn about their culture（彼らの文化を知るための）"},
+  {id:46067,type:2,typeName:"長い主語型エラー",jp:"自分の意見を英語で伝えることは難しい。",answer:"Expressing your opinion in English is difficult.",mistake:"I express my opinion in English is difficult.",hint:"文の動詞 is の前が文(S+V)になっていない？→ 動名詞にしよう。ヒント表現: express your opinion in English（自分の意見を英語で伝えるる）/ difficult（難しい）"},
+  {id:46068,type:2,typeName:"長い主語型エラー",jp:"他の国の料理を食べることは文化を知るきっかけとなる。",answer:"Eating food from other countries is a good chance to learn about their culture.",mistake:"I eat other country food is chance to know culture.",hint:"文の動詞 is の前が文(S+V)になっていない？→ 動名詞にしよう。ヒント表現: eat food from other countries（他の国の料理を食べる）/ a good chance（良いきっかけ）/ to learn about their culture（彼らの文化を知るための）"},
   {id:"2/-16",type:2,typeName:"長い主語型エラー",jp:"海外の友達がいると自信につながる。",answer:"Having a global friend connects to your confidence.",mistake:"You have a global friend is connecting your confidence.",hint:"文の動詞 is の前が文(S+V)になっていない？→ 動名詞にしよう。ヒント表現: have a global friend（海外の友達がいる）/  connect to your confidence（自信につながる）"},
   {id:"3-02",type:3,typeName:"動詞が2つ続くエラー",jp:"私たちは世界中の多くの人とつながれる。",answer:"We can connect with a lot of people in the world.",mistake:"We are can connect a lot of people in the world.\n★are と can を一緒に使わない → can だけ。",hint:"ヒント表現: connect with～（～とつながる）/ a lot of people in the world（世界中の人）"},
   {id:"3-03",type:3,typeName:"動詞が2つ続くエラー",jp:"大学生は留学すべきだ。",answer:"University students should study abroad.",mistake:"University students should be study abroad.\n★助動詞の後は動詞の原形。",hint:"ヒント表現: ～すべき (should)"},
@@ -135,18 +135,17 @@ const QUESTIONS = [
 ];
 
 const TYPE_META = {
-  1:{emoji:"🐍",color:"#C62828",bg:"#FFEBEE",border:"#EF9A9A",label:"Type 1",count:17,name:"主語・解説型エラー",desc:"日本語の主語をそのまま英語にすると、モノが主語になってしまいます。英語では「人」を主語にしましょう。"},
-  2:{emoji:"🏋️",color:"#AD1457",bg:"#FCE4EC",border:"#F48FB1",label:"Type 2",count:16,name:"長い主語型エラー",desc:"主語の位置に「I study abroad」のような文(S+V)を置いてしまうエラーです。動名詞や名詞句に変えましょう。"},
-  3:{emoji:"✌️",color:"#E65100",bg:"#FFF3E0",border:"#FFCC80",label:"Type 3",count:16,name:"動詞が2つ続くエラー",desc:"be動詞と一般動詞を一緒に使ってしまうエラーです。英語では1つの文に動詞は1つが基本です。"},
-  4:{emoji:"❓",color:"#2E7D32",bg:"#E8F5E9",border:"#A5D6A7",label:"Type 4",count:16,name:"主語または動詞がない文",desc:"日本語では省略できる主語や動詞も、英語では必ず「主語＋動詞」のセットが必要です。"},
-  5:{emoji:"🔗",color:"#1565C0",bg:"#E3F2FD",border:"#90CAF9",label:"Type 5",count:17,name:"Because エラー（断片文）",desc:"Because だけで文を終わらせてはいけません。必ず結論（主節）が必要です。"},
-  6:{emoji:"📝",color:"#6A1B9A",bg:"#F3E5F5",border:"#CE93D8",label:"Type 6",count:16,name:"For Example エラー（断片文）",desc:"For example の後に単語を並べるだけでなく、完全な文（主語＋動詞）にしましょう。"},
+  1:{emoji:"\u{1F40D}",color:"#C62828",bg:"#FFEBEE",border:"#EF9A9A",label:"Type 1",count:17,name:"主語・解説型エラー",desc:"日本語の主語をそのまま英語にすると、モノが主語になってしまいます。英語では「人」を主語にしましょう。"},
+  2:{emoji:"\u{1F3CB}\u{FE0F}",color:"#AD1457",bg:"#FCE4EC",border:"#F48FB1",label:"Type 2",count:16,name:"長い主語型エラー",desc:"主語の位置に「I study abroad」のような文(S+V)を置いてしまうエラーです。動名詞や名詞句に変えましょう。"},
+  3:{emoji:"\u270C\uFE0F",color:"#E65100",bg:"#FFF3E0",border:"#FFCC80",label:"Type 3",count:16,name:"動詞が2つ続くエラー",desc:"be動詞と一般動詞を一緒に使ってしまうエラーです。英語では1つの文に動詞は1つが基本です。"},
+  4:{emoji:"\u2753",color:"#2E7D32",bg:"#E8F5E9",border:"#A5D6A7",label:"Type 4",count:16,name:"主語または動詞がない文",desc:"日本語では省略できる主語や動詞も、英語では必ず「主語＋動詞」のセットが必要です。"},
+  5:{emoji:"\u{1F517}",color:"#1565C0",bg:"#E3F2FD",border:"#90CAF9",label:"Type 5",count:17,name:"Because エラー（断片文）",desc:"Because だけで文を終わらせてはいけません。必ず結論（主節）が必要です。"},
+  6:{emoji:"\u{1F4DD}",color:"#6A1B9A",bg:"#F3E5F5",border:"#CE93D8",label:"Type 6",count:16,name:"For Example エラー（断片文）",desc:"For example の後に単語を並べるだけでなく、完全な文（主語＋動詞）にしましょう。"},
 };
 
-function normalize(s){return s.toLowerCase().replace(/['']/g,"'").replace(/[""]/g,'"').replace(/\s+/g," ").replace(/[.,!?;:]+$/g,"").trim()}
+function normalize(s){return s.toLowerCase().replace(/[\u2018\u2019]/g,"'").replace(/[\u201C\u201D]/g,'"').replace(/\s+/g," ").replace(/[.,!?;:]+$/g,"").trim()}
 
 function getFirstAnswer(answer){
-  // Extract first answer (before \n(or)\n or \n)
   const parts = answer.split("\n");
   return parts[0].trim();
 }
@@ -155,7 +154,6 @@ function checkAnswer(input,answer){
   const first = getFirstAnswer(answer);
   const n=normalize(input),a=normalize(first);
   if(n===a)return"correct";
-  // Also check against alternative answers
   const alts = answer.split(/\n\(or\)\n|\n/).filter(s=>s.trim()&&!s.startsWith("(or)"));
   for(const alt of alts){
     if(normalize(alt)===n)return"correct";
@@ -172,7 +170,7 @@ function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Mat
 
 function MultiLineText({text,style}){
   if(!text)return null;
-  const lines=text.split("\\n").filter(l=>l.trim());
+  const lines=text.split("\n").filter(l=>l.trim());
   return React.createElement("div",{style},lines.map((line,i)=>React.createElement("div",{key:i,style:{marginBottom:i<lines.length-1?4:0}},line)));
 }
 
@@ -234,7 +232,7 @@ function App(){
         <div><div style={{fontWeight:700,fontSize:16,color:"#1A1612"}}>すべてのタイプからランダム出題</div><div style={{fontSize:13,color:"#8C8278",marginTop:2}}>全98問からランダムに出題</div></div>
       </button>
       {[1,2,3,4,5,6].map((type,i)=>{const m=TYPE_META[type];return(
-        <button key={type} onClick={()=>startQuiz(type)} style={{display:"block",width:"100%",padding:"16px 20px",background:"#fff",borderRadius:14,borderLeft:"4px solid "+m.color,border:"1px solid #EDE8E3",borderLeftWidth:4,borderLeftStyle:"solid",borderLeftColor:m.color,cursor:"pointer",textAlign:"left",transition:"all 0.2s",boxShadow:"0 1px 4px rgba(0,0,0,0.04)",animation:`fadeInUp 0.5s ease-out ${0.15+i*0.06}s both`}}>
+        <button key={type} onClick={()=>startQuiz(type)} style={{display:"block",width:"100%",padding:"16px 20px",background:"#fff",borderRadius:14,borderLeft:"4px solid "+m.color,border:"1px solid #EDE8E3",borderLeftWidth:4,borderLeftStyle:"solid",borderLeftColor:m.color,cursor:"pointer",textAlign:"left",transition:"all 0.2s",boxShadow:"0 1px 4px rgba(0,0,0,0.04)",animation:"fadeInUp 0.5s ease-out "+(0.15+i*0.06)+"s both"}}>
           <div style={{display:"flex",alignItems:"center",gap:12}}>
             <span style={{fontSize:32,lineHeight:1}}>{m.emoji}</span>
             <div style={{flex:1}}>
