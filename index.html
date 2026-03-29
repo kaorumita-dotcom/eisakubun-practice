@@ -143,12 +143,71 @@ const TYPE_META = {
   6:{emoji:"\u{1F4DD}",color:"#6A1B9A",label:"Type 6",count:16,name:"For Example エラー（断片文）",desc:"For example の後に単語を並べるだけでなく、完全な文（主語＋動詞）にしましょう。"},
 };
 
-function normalize(s){return s.toLowerCase().replace(/[\u2018\u2019]/g,"'").replace(/[\u201C\u201D]/g,'"').replace(/\s+/g," ").replace(/[.,!?;:]+$/g,"").trim()}
+// === 改善1: 正規化の強化 ===
+function normalize(s){
+  return s.toLowerCase()
+    .replace(/[\u2018\u2019\u0060]/g,"'")
+    .replace(/[\u201C\u201D]/g,'"')
+    .replace(/\s+/g," ")
+    .replace(/[.,!?;:]+$/g,"")
+    .replace(/\s*([.,!?;:])/g,"$1")  // 句読点前のスペース除去
+    .replace(/\s+/g," ")
+    .trim();
+}
+
+// === 改善2: 同義語許容 ===
+const SYNONYMS = [
+  ["you","we","i","they","students","people"],
+  ["can not","cannot","can't"],
+  ["do not","don't","dont"],
+  ["does not","doesn't"],
+  ["will not","won't"],
+  ["is not","isn't"],
+  ["are not","aren't"],
+  ["it is","it's"],
+  ["i am","i'm"],
+  ["a lot of","many","lots of"],
+  ["the","that","this"],
+  ["love","like"],
+  ["learn","study"],
+  ["big","large"],
+  ["small","little"],
+  ["happy","glad"],
+  ["start","begin"],
+  ["also","too"],
+  ["want to","would like to","wanna"],
+  ["because","since","as"],
+  ["important","significant"],
+  ["different","various"],
+  ["for example","for instance"],
+  ["such as","like"],
+  ["get","obtain","gain"],
+  ["improve","develop","enhance"],
+  ["through","by","via"],
+  ["a cafe","a café","cafes","cafés","cafe","café"],
+];
+
+function normalizeSynonyms(text){
+  let s = text;
+  for(const group of SYNONYMS){
+    const sorted = [...group].sort((a,b)=>b.length-a.length);
+    for(let i=1;i<sorted.length;i++){
+      const re = new RegExp("\\b"+sorted[i].replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+"\\b","gi");
+      s = s.replace(re, sorted[0]);
+    }
+  }
+  return s;
+}
 
 function checkAnswer(input,answer){
   const parts=answer.split("\n").filter(s=>s.trim()&&!s.startsWith("(or)"));
   const n=normalize(input);
+  // Exact match against any answer variant
   for(const p of parts){if(normalize(p)===n)return"correct";}
+  // Synonym-tolerant match
+  const nSyn=normalizeSynonyms(n);
+  for(const p of parts){if(normalizeSynonyms(normalize(p))===nSyn)return"correct";}
+  // Similarity check
   const a=normalize(parts[0]);
   const w1=n.split(" "),w2=a.split(" ");
   let c=0;const s2=new Set(w2);
@@ -178,14 +237,18 @@ function App(){
   const[listening,setListening]=useState(false);
   const iRef=useRef(null);const rRef=useRef(null);
 
+  // === 改善3: Type 5,6は長文なので録音時間延長 ===
   const startListen=useCallback(()=>{
     const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
     if(!SR){alert("音声認識非対応です。Chromeをお使いください。");return}
-    const r=new SR();r.lang="en-US";r.interimResults=true;r.continuous=false;
-    r.onresult=e=>{let f="",im="";for(let i=0;i<e.results.length;i++){if(e.results[i].isFinal)f+=e.results[i][0].transcript;else im+=e.results[i][0].transcript}setInput(f||im)};
+    const r=new SR();r.lang="en-US";r.interimResults=true;
+    const q=qs[idx];
+    // Type 5,6 or long answers: use continuous mode
+    r.continuous=(q&&(q.type===5||q.type===6));
+    r.onresult=e=>{let f="",im="";for(let i=0;i<e.results.length;i++){if(e.results[i].isFinal)f+=e.results[i][0].transcript+" ";else im+=e.results[i][0].transcript}setInput((f||im).trim())};
     r.onend=()=>setListening(false);r.onerror=()=>setListening(false);
     rRef.current=r;r.start();setListening(true);
-  },[]);
+  },[qs,idx]);
   const stopListen=useCallback(()=>{if(rRef.current)rRef.current.stop();setListening(false)},[]);
 
   const start=(type)=>{
@@ -206,7 +269,11 @@ function App(){
     <div style={{maxWidth:640,margin:"0 auto",padding:"40px 20px 60px",display:"flex",flexDirection:"column",gap:12}}>
       <div style={{animation:"fadeInUp 0.5s ease-out"}}>
         <h1 style={{fontFamily:"'Outfit','Noto Sans JP'",fontSize:32,fontWeight:900,textAlign:"center",color:"#1A1612",letterSpacing:-0.5,marginBottom:4}}>英作文エラー練習</h1>
-        <p style={{textAlign:"center",color:"#8C8278",fontSize:14,marginBottom:20}}>日本語を英語に訳して、よくあるエラーを克服しよう</p>
+        <p style={{textAlign:"center",color:"#8C8278",fontSize:14,marginBottom:8}}>日本語を英語に訳して、よくあるエラーを克服しよう</p>
+        <div style={{textAlign:"center",fontSize:12,color:"#B0A89F",marginBottom:16,lineHeight:1.6}}>
+          ※ 音声入力の認識精度は端末により異なります。正しいのに不正解と表示される場合は、テキストを修正してから再送信してください。<br/>
+          ※ You / We / I や can't / cannot などの同義語はどちらでも正解になります。
+        </div>
       </div>
       <button onClick={()=>start("random")} style={{display:"flex",alignItems:"center",gap:14,padding:"18px 20px",background:"#fff",borderRadius:16,border:"2px dashed #D4CEC6",cursor:"pointer",textAlign:"left",width:"100%",boxShadow:"0 2px 8px rgba(0,0,0,0.06)",animation:"fadeInUp 0.5s ease-out 0.1s both"}}>
         <span style={{fontSize:28}}>🎯</span>
@@ -228,6 +295,14 @@ function App(){
           </div>
         </button>
       )})}
+      <div style={{marginTop:20,padding:"16px 20px",background:"#fff",borderRadius:14,border:"1px solid #EDE8E3",boxShadow:"0 1px 4px rgba(0,0,0,0.04)"}}>
+        <div style={{fontWeight:700,fontSize:15,color:"#1A1612",marginBottom:8}}>📚 おすすめの使い方</div>
+        <div style={{fontSize:13,color:"#8C8278",lineHeight:1.8}}>
+          <b>1回目：</b>「ヒント」や「よくある間違い」を見てから回答 → 間違えたら「もう一度」<br/>
+          <b>2回目：</b>ヒントを見ずに挑戦 → 間違えたらもう一度<br/>
+          <b>3回目以降：</b>ヒントなしで全問正解を目指そう！
+        </div>
+      </div>
     </div>
   );
 
@@ -266,7 +341,7 @@ function App(){
               <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
             </button>
           </div>
-          <div style={{fontSize:11.5,color:"#B0A89F",textAlign:"center",marginTop:8}}>🎙 音声入力後、テキストを修正してから送信できます</div>
+          <div style={{fontSize:11.5,color:"#B0A89F",textAlign:"center",marginTop:8}}>🎙 音声入力後、テキストを修正してから送信できます{(q.type===5||q.type===6)?" （長文対応モード）":""}</div>
         </div>
       )}
       {res&&(
