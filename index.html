@@ -67,169 +67,71 @@ const QUESTIONS = [
   {id:46067,type:2,typeName:"長い主語型エラー",jp:"自分の意見を英語で伝えることは難しい。",answer:"Expressing your opinion in English is difficult.",mistake:"I express my opinion in English is difficult.",hint:"文の動詞 is の前が文(S+V)になっていない？→ 動名詞にしよう。ヒント表現: express（伝えるる）/  in English（英語で）/ difficult（難しい）"},
   {id:46068,type:2,typeName:"長い主語型エラー",jp:"他の国の料理を食べることは文化を知るきっかけとなる。",answer:"Eating food from other countries is a good chance to learn about their culture.",mistake:"I eat other country food is chance to know culture.",hint:"文の動詞 is の前が文(S+V)になっていない？→ 動名詞にしよう。ヒント表現: eat food from other countries（他の国の料理を食べる）/ a good chance（良いきっかけ）/ to learn about their culture（彼らの文化を知るための）"},
   {id:46067,type:2,typeName:"長い主語型エラー",jp:"海外の友達がいると自信につながる。",answer:"Having a global friend connects to your confidence.",mistake:"You have a global friend is connecting your confidence.",hint:"文の動詞 is の前が文(S+V)になっていない？→ 動名詞にしよう。ヒント表現: have a global friend（海外の友達がいる）/  connect to your confidence（自信につながる）"},
-  {id:46082,type:3,typeName:"動詞が2つ続くエラー",jp:"私たちは世界中の多くの人とつながれる。",answer:"We can connect with a lot of people in the world.",mistake:"We are can connect a lot of people in the world.
-★are と can を一緒に使わない → can だけ。",hint:"ヒント表現: connect with～（～とつながる）/ a lot of people in the world（世界中の多くの人）"},
-  {id:46083,type:3,typeName:"動詞が2つ続くエラー",jp:"大学生は留学すべきだ。",answer:"University students should study abroad.",mistake:"University students should be study abroad.
-★助動詞の後は動詞の原形。",hint:"ヒント表現: ～すべき (should)"},
-  {id:46084,type:3,typeName:"動詞が2つ続くエラー",jp:"それらの経験が彼らの精神的成長を助ける。",answer:"These experiences help their mental growth.",mistake:"The experiences are help their mental.
-★are（be動詞） と grow(一般動詞の原形） を一緒に使わない。",hint:"ヒント表現: experience (経験）/  help their mental growth（精神的成長を助ける）"},
-  {id:46085,type:3,typeName:"動詞が2つ続くエラー",jp:"グローバル化が世界中で進んでいる。",answer:"Globalization is progressing around the world.",mistake:"Globalization is progress around the world.
-★進行形はbe動詞 + ~ing → is progressing。",hint:"ヒント表現: globalization (国際化） / progress（進む）/around the world（世界中で）"},
-  {id:46086,type:3,typeName:"動詞が2つ続くエラー",jp:"私はたくさんの食べ物を楽しむだろうと思う。",answer:"I think I will enjoy many kinds of food.",mistake:"I think I will be enjoy many foods.
-★be動詞と grow(一般動詞の原形） を一緒に使わない。",hint:"ヒント表現:  many kinds of food （たくさんの食べ物）"},
-  {id:46087,type:3,typeName:"動詞が2つ続くエラー",jp:"留学は私たちの成長につながるだろう。",answer:"Studying abroad will connect to our growth.",mistake:"Studying abroad will be connect to our growth.
-★be動詞と conneect (一般動詞の原形） を一緒に使わない。",hint:"ヒント表現: connect to our growth（私たちの成長につながる）"},
-  {id:46088,type:3,typeName:"動詞が2つ続くエラー",jp:"留学では私たちは教科書からだけ学ぶのではない。",answer:"Through studying abroad, we do not only learn from textbooks.",mistake:"Studying abroad experience is not learn only textbook.
-★be動詞（is） と一般動詞の原形(learn) を一緒に使わない。",hint:"ヒント表現: Through studying abroad,（留学を通して）/ we do not only learn from textbooks（教科書からだけ学ぶのではない）"},
-  {id:46089,type:3,typeName:"動詞が2つ続くエラー",jp:"英語を話すことは重要だ。",answer:"Speaking English is important.",mistake:"Speaking English is be important.
-★be動詞 (is) の後に be は不要 → is important。",hint:"ヒント表現: speak English（英語を話す）"},
-  {id:46090,type:3,typeName:"動詞が2つ続くエラー",jp:"彼らはピアノの練習をしている。",answer:"They are practicing the piano .",mistake:"They are practice the piano.
-★進行形は be動詞 + ~ing → are practicing。",hint:"ヒント表現: practice（練習する）"},
-  {id:46091,type:3,typeName:"動詞が2つ続くエラー",jp:"私たちは英語を勉強できる。",answer:"We can study English.",mistake:"We are can study English.
-★be動詞（are) と 助動詞（can) を一緒に使わない → can だけ。",hint:"ヒント表現: study English（英語を勉強する）"},
-  {id:46092,type:3,typeName:"動詞が2つ続くエラー",jp:"彼女は上手に歌える。",answer:"She can sing well.",mistake:"She is can sing well.
-★be動詞(is) と助動詞(can) を一緒に使わない → can だけ。",hint:"ヒント表現: sing well（上手に歌う）"},
-  {id:46093,type:3,typeName:"動詞が2つ続くエラー",jp:"学生たちは一生懸命勉強しなければならない。",answer:"Students must study hard.",mistake:"Students must be study hard.
-★be動詞（be） と一般動詞の原形(study) を一緒に使わない→must study。",hint:"ヒント表現:  must study hard（一生懸命勉強しなければならない）"},
-  {id:46094,type:3,typeName:"動詞が2つ続くエラー",jp:"私は将来教師になりたい。",answer:"I want to become a teacher in the future.",mistake:"I am want to become a teacher.
-★be動詞(am) と 一般動詞の原形(want) を一緒に使わない → want だけ。",hint:"ヒント表現: become a teacher（教師になりたい）/ in the future（将来）"},
-  {id:46095,type:3,typeName:"動詞が2つ続くエラー",jp:"彼は毎朝走っている。",answer:"He runs every morning.",mistake:"He is run every morning.
-★be動詞(is) と 一般動詞の原形(run) を一緒に使わない → runs。",hint:"ヒント表現: 現在形は習慣を表す。every morningがあるので、この文は現在形にする。※「今現在走っている」の場合は進行形 is running。"},
-  {id:46096,type:3,typeName:"動詞が2つ続くエラー",jp:"私たちはその問題を解決すべきだ。",answer:"We should solve that problem.",mistake:"We should be solve that problem.
-★be動詞(be) と 一般動詞の原形(solve) を一緒に使わない → solve だけ。",hint:"ヒント表現: solve that problem（その問題を解決する）"},
-  {id:46097,type:3,typeName:"動詞が2つ続くエラー",jp:"彼らは新しいスキルを学んでいる。",answer:"They are learning new skills.",mistake:"They are learn new skills.
-★進行形は be動詞 + ~ing → are learning。",hint:"ヒント表現: learn new skills（新しいスキルを学ぶ）"},
-  {id:46113,type:4,typeName:"主語または動詞がない文",jp:"学生はまず語学力を伸ばし、考え方を身につけられる。",answer:"First, students can improve their language skills and develop a new way of thinking.",mistake:"First, improve language skills and develop a mind.
-★主語がない。「誰が」伸ばすのか？→ 主語 students を追加。",hint:"ヒント表現:  First (まず）/ improve（伸ばす）/ their language skills （語学力）/ develop a new way of thinking（考え方を身につける）"},
-  {id:"4-02",type:4,typeName:"主語または動詞がない文",jp:"英語だけを話す人々がいる場所に行けば、英語をすぐに話せるようになります。",answer:"If you go to a place where people speak only English, you can learn to speak English quickly.",mistake:"If speak English only people place, you can speak English quickly.
-★主語がない。「誰が」話すのか？主語 you を追加。",hint:"ヒント表現: If you go to a place where...（もし〜の場所に行けば）/  learn to speak English （英語を話せるようになる）/ quickly （すぐに）"},
-  {id:"4-03",type:4,typeName:"主語または動詞がない文",jp:"あなたは自分の力で生きる力を身につけられる。",answer:"You can gain the strength to live on your own.",mistake:"Gain the strength to live on your own.
-★主語がない。 「誰が」できるのか？→ 主語 You を追加。",hint:"ヒント表現: gain the strength to live（生きる力を身につける）/  on your own（自分の力で）"},
-  {id:"4-04",type:4,typeName:"主語または動詞がない文",jp:"私はスピーキング力とライティング力を伸ばせると思う。",answer:"I think I can improve my speaking and writing skills.",mistake:"I think improve my skills speaking and writing.
-★主語がない。「誰が」伸ばせるのか？→ 動詞growの前に主語 I を追加。",hint:"ヒント表現:  improve（伸ばす）/ speaking and writing skills（スピーキング力とライティング力）"},
-  {id:"4-05",type:4,typeName:"主語または動詞がない文",jp:"私は多くの文化について学べると思う。",answer:"I think I can learn about many cultures.",mistake:"I think learn many culture.
-★主語がない。「誰が」学べるのか？→ 動詞learnの前に主語 I を追加。",hint:"ヒント表現:  learn about～（～について学ぶ）/ many cultures（多くの文化）"},
-  {id:"4-06",type:4,typeName:"主語または動詞がない文",jp:"私は将来、それが一人暮らしに役立つと思う。",answer:"I think it will help me live independently in the future.",mistake:"I think help for alone life style in the future.
-★主語がない。「何が」役立つのか？→ 動詞helpの前に主語 itを追加。",hint:"ヒント表現:  live independently（一人暮らしをする）/ in the future（将来）"},
-  {id:"4-07",type:4,typeName:"主語または動詞がない文",jp:"異文化を理解することが大切だ。",answer:"It is important to understand different cultures.",mistake:"Important to understand different cultures.
-★主語と動詞がない。「何が」大切か？→ 形容詞importantの前に主語 It と動詞 isを追加。",hint:"ヒント表現:  形式主語 It is … to … を使ってみよう。important（大切）/ understand（理解する）/ different cultures（異文化）"},
-  {id:"4-08",type:4,typeName:"主語または動詞がない文",jp:"毎日英語を練習すべきだ。",answer:"You should practice English every day.",mistake:"Should practice English every day.
-★主語がない。「誰が」練習すべきなのか？→ 動詞should practicepの前に主語 You / We/ I を追加。",hint:"ヒント表現:  should （べき）/practice English（英語を練習する）"},
-  {id:"4-09",type:4,typeName:"主語または動詞がない文",jp:"あなたは新しい友達を作ることができる。",answer:"You can make new friends.",mistake:"Can make new friends.
-★主語がない。「誰が」作ることができるのか？→ 動詞 can makeの前に主語 Youを追加。",hint:"ヒント表現: make new friends（新しい友達を作る）"},
-  {id:"4-10",type:4,typeName:"主語または動詞がない文",jp:"私は世界中を旅行したい。",answer:"I want to travel around the world.",mistake:"Want to travel around the world.
-★主語がない。「誰が」したいのか？→ 動詞 wantの前に主語 I を追加。",hint:"ヒント表現: travel（旅行する）/ around the world（世界中を）"},
-  {id:"4-11",type:4,typeName:"主語または動詞がない文",jp:"私は英語が上手になりたい。",answer:"I want to become good at English.",mistake:"Want to become good at English.
-★主語がない。「誰が」したいのか？→ 動詞 wantの前に主語 I を追加。",hint:"ヒント表現:  become good at English（英語が上手になる）"},
-  {id:"4-12",type:4,typeName:"主語または動詞がない文",jp:"私は留学は楽しいと思う。",answer:"I think studying abroad is fun.",mistake:"I think fun studying abroad.
-★主語の位置が誤り。「何が」楽しいのか？→ I thinkの後の文の主語は studying abroad。",hint:"ヒント表現:  fun（楽しい）"},
-  {id:"4-13",type:4,typeName:"主語または動詞がない文",jp:"私はたくさんの経験ができると思う。",answer:"I think I can have many experiences.",mistake:"I think many experiences.
-★ I thinkの後に主語と動詞がない。「誰が」「できる」のか？→ 目的語many experiencesの前に,主語 (I) と動詞 (can have) を追加。",hint:"ヒント表現:  have many experiences（たくさんの経験ができる）"},
-  {id:"4-14",type:4,typeName:"主語または動詞がない文",jp:"私は外国の食べ物を食べてみたい。",answer:"I want to try foreign foods.",mistake:"Want to try foreign food.
-★主語がない。「誰が」したいのか？→ 動詞 wantの前に主語 I を追加。",hint:"ヒント表現: try foreign foods（外国の食べ物を食べる）"},
-  {id:"4-15",type:4,typeName:"主語または動詞がない文",jp:"私は将来海外で働きたい。",answer:"I want to work abroad in the future.",mistake:"In the future, work abroad.
-★主語と動詞がない。「誰が」「働きたい」のか？→ 主語 ( I ) と動詞 (want to work) を追加。",hint:"ヒント表現: work abroad（海外で働く）"},
-  {id:"4-16",type:4,typeName:"主語または動詞がない文",jp:"私は英語を使う仕事に就きたい。",answer:"I want to get a job that uses English.",mistake:"Get a job that uses English.
-★主語がない。「誰が」したいのか？→主語 I を追加し getの前に動詞 want（したい）を追加。",hint:"ヒント表現:  get a job（仕事に就く）/ that uses English（英語を使う）"},
-  {id:"5-01",type:5,typeName:"Because エラー",jp:"夏が好きなので夏を選んだ。
-（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I chose summer because I like summer.",mistake:"I chose summer. Because I like summer.
-★Because ... だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現:  choose summer (夏を選ぶ）"},
-  {id:"5-02",type:5,typeName:"Because エラー",jp:"行ったことのない場所だから行くべきだ。（2文で答えなさい）",answer:"You should go there. This is because it is a place you have never been to.",mistake:"You should go there. Because, it is a place you have never been to.
-★Because だけでは文にならない →This is becauseを使って2文にしよう。",hint:"ヒント表現:  a place you have never been to（行ったことのない場所）"},
-  {id:"5-03",type:5,typeName:"Because エラー",jp:"高いので私は行きたくない。
-（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I don't want to go because it is expensive.",mistake:"I don't want to go. Because, it is expensive.
-★Because ... だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現: expensive（高い）"},
-  {id:"5-04",type:5,typeName:"Because エラー",jp:"英語力が上がるので私は留学したい。
-（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I want to study abroad because I can improve my English.",mistake:"I want to study abroad. Because I can improve my English.
-★Because ... だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現:  study abroad（留学する）/ improve my English（英語力を上げる）"},
-  {id:"5-05",type:5,typeName:"Because エラー",jp:"幸せになれると思うので私は留学したい。（2文で答えなさい）",answer:"I want to study abroad. This is because I think it will make me very happy.",mistake:"I want to study abroad. Because I think it will make me very happy.
-★Because だけでは文にならない →This is because を使って2文にしよう。",hint:"ヒント表現:  it will make me very happy（幸せになれる）"},
-  {id:"5-06",type:5,typeName:"Because エラー",jp:"日本にいるので私たちは英語の練習ができない。
-（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"We can't practice English because we are in Japan.",mistake:"We can't practice English. Because we are inside Japan.
-★Because ... だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現:  we are in Japan（日本にいる）"},
-  {id:"5-07",type:5,typeName:"Because エラー",jp:"多くの人が英語を話すのであなたは友達を作れる。
-（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"You can make many friends because many people speak English.",mistake:"You can make many friends. Because, many people speak English.
-★Because ... だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現:  can make many friends （友達を作れる)"},
-  {id:"5-08",type:5,typeName:"Because エラー",jp:"彼らにとって大切なことだから彼らは留学すべきだ。
-（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"They should study abroad because it is important for them.",mistake:"They should study abroad. Because it is important for them.
-★Because … だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現: study abroad （留学する）"},
-  {id:"5-09",type:5,typeName:"Because エラー",jp:"ネイティブの話を聞きたいので私は英語を勉強したい。（2文で答えなさい）",answer:"I want to study English. This is because I want to listen to native speakers.",mistake:"I want to study English. Because I want to listen to native speak.
-★Because だけでは文にならない → This is because を使って2文にしよう。",hint:"ヒント表現:  listen to native speakers（ネイティブの話を聞く）"},
-  {id:"5-10",type:5,typeName:"Because エラー",jp:"スキルを向上できるので私はそれは大切だと思う。
-（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I think it is important because I can improve my skills.",mistake:"I think it is important. Because I can improve my skills.
-★Because  … だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現: improve my skills（スキルを向上する）"},
-  {id:"5-11",type:5,typeName:"Because エラー",jp:"天気がよいので私は公園に行きたい。
-（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I want to go to the park because the weather is nice.",mistake:"I want to go to the park. Because the weather is nice.
-★Because  … だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現:  the weather is nice.（天気がよい）"},
-  {id:"5-12",type:5,typeName:"Because エラー",jp:"英語が必要だから私は英語の勉強をしている。（2文で答えなさい）",answer:"I study English. This is because English is necessary.",mistake:"I study English. Because English is necessary.
-★Because  … だけでは文にならない →、This is becauseを使って2文にしよう。",hint:"ヒント表現: necessary.（必要）"},
-  {id:"5-13",type:5,typeName:"Because エラー",jp:"とても疲れているので私は早く寝たい。
-（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I want to go to bed early because I am so tired.",mistake:"I want to go to bed early. Because I am so tired.
-★Because  … だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現:  early （早く）　/ so tired（とても疲れている）"},
-  {id:"5-14",type:5,typeName:"Because エラー",jp:"お金がないので私はそれを買えない。
-（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I can't buy it because I don't have money.",mistake:"I can't buy it. Because I don't have money.
-★Because  … だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現:  don't have money.（お金がない）"},
-  {id:"5-15",type:5,typeName:"Because エラー",jp:"健康によいので私は毎日運動している。（2文で答えなさい）",answer:"I exercise every day. This is because it is good for my health.",mistake:"I exercise every day. Because it is good for my health.
-★Because  … だけでは文にならない →This is because にを使って2文にしよう。",hint:"ヒント表現: exercise（運動する）/ good for my health.（健康によい）"},
-  {id:"5-16",type:5,typeName:"Because エラー",jp:"友達がいるので私はその国に行きたい。
-（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I want to go to the country because I have friends there.",mistake:"I want to go to the country. Because I have friends there.
-★Because  … だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現:  have friends there. （そこに友達がいる）"},
-  {id:"5-17",type:5,typeName:"Because エラー",jp:"面白いので私はその授業が好きだ。
-（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I like that class because it is interesting.",mistake:"I like that class. Because it is interesting.
-★Because  … だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現:  interesting.（面白い）"},
-  {id:"6-01",type:6,typeName:"For Example エラー",jp:"留学すると多くの新しいことを体験する。例えば生活様式、食べ物、言語などだ。
-(such asを使って1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"When you study abroad, you experience many new things, such as the lifestyle, food, and language.",mistake:"When you study abroad, you experience many new things. For example, the lifestyle, food, and language.
-★For example, の後は具体例を説明する文（主語＋動詞）でなければいけません。 
-★名詞の例を挙げる場合は such as を使いましょう。",hint:"ヒント表現:  experience（体験する）/ lifestyle（生活様式）/language（言語）"},
-  {id:"6-02",type:6,typeName:"For Example エラー",jp:"英語にはリスニング、ライティング、スピーキング、リーディングのような4つのスキルがある。
-(such asを使って1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"There are four skills in English, such as listening, writing, speaking, and reading.",mistake:"There are four skills. Such as, listening, writing, speaking and reading.
-★such as で文を始めてはいけません。 →前の文に続けて 1つの文にする。such as の前にはコンマが必要。",hint:"ヒント表現: There are … ( … がある）"},
-  {id:"6-03",type:6,typeName:"For Example エラー",jp:"国によって多くのことが異なる。例えば食べ物、服装、挨拶、身振りなどだ。
-(such asを使って1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"Many things are different between countries, such as food, clothes, greetings, and gestures.",mistake:"Many things are different. For example, foods, clothes, greetings and gestures.
-★For example, の後は具体例を説明する文（主語＋動詞）でなければいけません。 
-★名詞の例を挙げる場合は such as を使いましょう。",hint:"ヒント表現: different（異なる）/ between countries（国によって） / clothes（服装）/ greetings（挨拶）/and gestures（身振り)"},
-  {id:"6-04",type:6,typeName:"For Example エラー",jp:"私はスピーキング,リーディング,リスニング、ライティングなど4技能すべてを向上させたい。
-(such asを使って1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I want to improve all four English skills, such as speaking, reading, listening, and writing.",mistake:"I want to improve four English skills. Such as speaking, reading, listening, and writing.
-★such as で文を始めてはいけません。 →前の文に続けて 1つの文にする。such as の前にはコンマが必要。",hint:"ヒント表現: improve（向上させる） / all（すべての）"},
-  {id:"6-05",type:6,typeName:"For Example エラー",jp:"私は多くのことを学べる。例えば食べ物、音楽、歴史、芸術について学べる。
-（2文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I can learn about many things. For example, I can learn about food, music, history, and art.",mistake:"I can learn about many things. For example, food, music, history, and art.
-★For example, の後には完全な文（主語＋動詞）が必要 → I can learn about を追加。",hint:"ヒント表現: history（歴史）/ art（芸術）"},
-  {id:"6-06",type:6,typeName:"For Example エラー",jp:"私は多くのことを自分でするようになった。例えば料理、皿洗い、掃除を自分でするようになった。
-（2文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I started doing many things by myself. For example, I started cooking, washing dishes, and cleaning my room.",mistake:"I started doing many things by myself. For example, cooking, washing dishes, and cleaning my room.
-★For example, の後には完全な文（主語＋動詞）が必要 → I started を追加。",hint:"ヒント表現:  start doing many things （多くのことを自分でする）/ by myself （自分で）/ washing dishes （皿洗い）/ cleaning my room（部屋の掃除）"},
-  {id:"6-07",type:6,typeName:"For Example エラー",jp:"国によって多くの違いがある。例えば肌の色、食べ物、マナーのようなに違いがある。
-（2文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"There are many differences between countries. For example, there are differences in skin color, food, and manners.",mistake:"There are many differences between countries. For example, skin color, food, and manners.
-★For example, の後には完全な文（主語＋動詞）が必要 →  there are differences inを追加。",hint:"ヒント表現: There are many differenes（多くの違いがある）/　between countries（国によって）/ skin color（肌の色）/ manners（マナー）"},
-  {id:"6-08",type:6,typeName:"For Example エラー",jp:"外国の文化は日本と違う。例えば家の中で靴を脱がない。
-（2文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"Foreign culture is different from Japan. For example, people do not take off their shoes inside the house.",mistake:"Foreign culture is different from Japan. For example, no take off shoes.
-★For example, の後には完全な文（主語＋動詞）が必要 →  people do not を追加。",hint:"ヒント表現: take off their shoes （靴を脱ぐ）/inside the house（家の中で）"},
-  {id:"6-09",type:6,typeName:"For Example エラー",jp:"私は日常生活について学びたい。例えば食事や生活様式などだ。
-(such asを使って1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I want to learn about everyday life, such as meals and living styles.",mistake:"I want to learn about everyday life. Such as, meals and living styles.
-★such as で文を始めてはいけません。 →前の文に続けて 1つの文にする。such as の前にはコンマが必要。",hint:"ヒント表現: everyday life（日常生活）/ meals （食事）/ living styles（生活様式）"},
-  {id:"6-10",type:6,typeName:"For Example エラー",jp:"私は英語を練習する方法がある。例えば毎日英語で日記を書いている。
-（2文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I have ways to practice English. For example, I write a diary in English every day.",mistake:"I have ways to practice English. For example, diary in English every day.
-★For example, の後には完全な文（主語＋動詞）が必要 →  I write を追加。",hint:"ヒント表現: ways （方法）/ practice（練習する）/ diary （日記）/ in Engllish （英語で）"},
-  {id:"6-11",type:6,typeName:"For Example エラー",jp:"私はスポーツが好きだ。例えばサッカーやバスケットボールが好きだ。
-(such asを使って1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I like sports, such as soccer and basketball.",mistake:"I like sports. For example, soccer and basketball.
-★For example, の後は具体例を説明する文（主語＋動詞）でなければいけません。 
-★名詞の例を挙げる場合は such as を使いましょう。",hint:"ヒント表現:  soccer and basketball.（サッカーやバスケットボール）"},
-  {id:"6-12",type:6,typeName:"For Example エラー",jp:"私はいろいろな方法で通学している。例えば電車やバスで通学している。
-（2文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I go to school in different ways. For example, I go to school by train or bus.",mistake:"I go to school in different ways. For example, train and bus.
-★For example, の後には完全な文（主語＋動詞）が必要 →  I go to school by を追加。",hint:"ヒント表現: in different ways （いろいろな方法で）/ by train or bus（電車やバスで）"},
-  {id:"6-13",type:6,typeName:"For Example エラー",jp:"私は日本食が好きだ。例えば寿司やラーメンが好きだ。
-(such asを使って1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I like Japanese food, such as sushi and ramen.",mistake:"I like Japanese food. For example, sushi and ramen.
-★For example, の後は具体例を説明する文（主語＋動詞）でなければいけません。 
-★名詞の例を挙げる場合は such as を使いましょう。",hint:"ヒント表現: sushi and ramen（寿司やラーメン）"},
-  {id:"6-14",type:6,typeName:"For Example エラー",jp:"私にはたくさんの趣味がある。例えば映画を見たり音楽を聴いたりする。
-（2文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I have many hobbies. For example, I watch movies and listen to music.",mistake:"I have many hobbies. For example, movies and music.
-★For example, の後には完全な文（主語＋動詞）が必要 → I watch ... and listen to を追加。",hint:"ヒント表現:  watching movies and listening to music.（映画を見ることや音楽を聴くこと）"},
-  {id:"6-15",type:6,typeName:"For Example エラー",jp:"私は健康的な習慣がある。例えば朝早く起きて運動している。
-（2文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I have healthy habits. For example, I wake up early and exercise in the morning.",mistake:"I have healthy habits. For example, wake up early and exercise in the morning.
-★For example, の後には完全な文（主語＋動詞）が必要 → 主語 I を追加。",hint:"ヒント表現: healthy habits（健康的な習慣）/ wake up early and exercise in the morning（朝早く起きて運動する）"},
-  {id:"6-16",type:6,typeName:"For Example エラー",jp:"私はいろいろな場所で勉強している。例えば図書館やカフェなどだ。
-(such asを使って1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I study in different places, such as the library and cafes.",mistake:"I study in different places. For example, library and cafe.
-★For example, の後は具体例を説明する文（主語＋動詞）でなければいけません。 
-★名詞の例を挙げる場合は such as を使いましょう。",hint:"ヒント表現: in various places（いろいろな場所で）/  the library（図書館） / cafes.（カフェ）"}
+  {id:46082,type:3,typeName:"動詞が2つ続くエラー",jp:"私たちは世界中の多くの人とつながれる。",answer:"We can connect with a lot of people in the world.",mistake:"We are can connect a lot of people in the world.\n★are と can を一緒に使わない → can だけ。",hint:"ヒント表現: connect with～（～とつながる）/ a lot of people in the world（世界中の多くの人）"},
+  {id:46083,type:3,typeName:"動詞が2つ続くエラー",jp:"大学生は留学すべきだ。",answer:"University students should study abroad.",mistake:"University students should be study abroad.\n★助動詞の後は動詞の原形。",hint:"ヒント表現: ～すべき (should)"},
+  {id:46084,type:3,typeName:"動詞が2つ続くエラー",jp:"それらの経験が彼らの精神的成長を助ける。",answer:"These experiences help their mental growth.",mistake:"The experiences are help their mental.\n★are（be動詞） と grow(一般動詞の原形） を一緒に使わない。",hint:"ヒント表現: experience (経験）/  help their mental growth（精神的成長を助ける）"},
+  {id:46085,type:3,typeName:"動詞が2つ続くエラー",jp:"グローバル化が世界中で進んでいる。",answer:"Globalization is progressing around the world.",mistake:"Globalization is progress around the world.\n★進行形はbe動詞 + ~ing → is progressing。",hint:"ヒント表現: globalization (国際化） / progress（進む）/around the world（世界中で）"},
+  {id:46086,type:3,typeName:"動詞が2つ続くエラー",jp:"私はたくさんの食べ物を楽しむだろうと思う。",answer:"I think I will enjoy many kinds of food.",mistake:"I think I will be enjoy many foods.\n★be動詞と grow(一般動詞の原形） を一緒に使わない。",hint:"ヒント表現:  many kinds of food （たくさんの食べ物）"},
+  {id:46087,type:3,typeName:"動詞が2つ続くエラー",jp:"留学は私たちの成長につながるだろう。",answer:"Studying abroad will connect to our growth.",mistake:"Studying abroad will be connect to our growth.\n★be動詞と conneect (一般動詞の原形） を一緒に使わない。",hint:"ヒント表現: connect to our growth（私たちの成長につながる）"},
+  {id:46088,type:3,typeName:"動詞が2つ続くエラー",jp:"留学では私たちは教科書からだけ学ぶのではない。",answer:"Through studying abroad, we do not only learn from textbooks.",mistake:"Studying abroad experience is not learn only textbook.\n★be動詞（is） と一般動詞の原形(learn) を一緒に使わない。",hint:"ヒント表現: Through studying abroad,（留学を通して）/ we do not only learn from textbooks（教科書からだけ学ぶのではない）"},
+  {id:46089,type:3,typeName:"動詞が2つ続くエラー",jp:"英語を話すことは重要だ。",answer:"Speaking English is important.",mistake:"Speaking English is be important.\n★be動詞 (is) の後に be は不要 → is important。",hint:"ヒント表現: speak English（英語を話す）"},
+  {id:46090,type:3,typeName:"動詞が2つ続くエラー",jp:"彼らはピアノの練習をしている。",answer:"They are practicing the piano .",mistake:"They are practice the piano.\n★進行形は be動詞 + ~ing → are practicing。",hint:"ヒント表現: practice（練習する）"},
+  {id:46091,type:3,typeName:"動詞が2つ続くエラー",jp:"私たちは英語を勉強できる。",answer:"We can study English.",mistake:"We are can study English.\n★be動詞（are) と 助動詞（can) を一緒に使わない → can だけ。",hint:"ヒント表現: study English（英語を勉強する）"},
+  {id:46092,type:3,typeName:"動詞が2つ続くエラー",jp:"彼女は上手に歌える。",answer:"She can sing well.",mistake:"She is can sing well.\n★be動詞(is) と助動詞(can) を一緒に使わない → can だけ。",hint:"ヒント表現: sing well（上手に歌う）"},
+  {id:46093,type:3,typeName:"動詞が2つ続くエラー",jp:"学生たちは一生懸命勉強しなければならない。",answer:"Students must study hard.",mistake:"Students must be study hard.\n★be動詞（be） と一般動詞の原形(study) を一緒に使わない→must study。",hint:"ヒント表現:  must study hard（一生懸命勉強しなければならない）"},
+  {id:46094,type:3,typeName:"動詞が2つ続くエラー",jp:"私は将来教師になりたい。",answer:"I want to become a teacher in the future.",mistake:"I am want to become a teacher.\n★be動詞(am) と 一般動詞の原形(want) を一緒に使わない → want だけ。",hint:"ヒント表現: become a teacher（教師になりたい）/ in the future（将来）"},
+  {id:46095,type:3,typeName:"動詞が2つ続くエラー",jp:"彼は毎朝走っている。",answer:"He runs every morning.",mistake:"He is run every morning.\n★be動詞(is) と 一般動詞の原形(run) を一緒に使わない → runs。",hint:"ヒント表現: 現在形は習慣を表す。every morningがあるので、この文は現在形にする。※「今現在走っている」の場合は進行形 is running。"},
+  {id:46096,type:3,typeName:"動詞が2つ続くエラー",jp:"私たちはその問題を解決すべきだ。",answer:"We should solve that problem.",mistake:"We should be solve that problem.\n★be動詞(be) と 一般動詞の原形(solve) を一緒に使わない → solve だけ。",hint:"ヒント表現: solve that problem（その問題を解決する）"},
+  {id:46097,type:3,typeName:"動詞が2つ続くエラー",jp:"彼らは新しいスキルを学んでいる。",answer:"They are learning new skills.",mistake:"They are learn new skills.\n★進行形は be動詞 + ~ing → are learning。",hint:"ヒント表現: learn new skills（新しいスキルを学ぶ）"},
+  {id:46113,type:4,typeName:"主語または動詞がない文",jp:"学生はまず語学力を伸ばし、考え方を身につけられる。",answer:"First, students can improve their language skills and develop a new way of thinking.",mistake:"First, improve language skills and develop a mind.\n★主語がない。「誰が」伸ばすのか？→ 主語 students を追加。",hint:"ヒント表現:  First (まず）/ improve（伸ばす）/ their language skills （語学力）/ develop a new way of thinking（考え方を身につける）"},
+  {id:"4-02",type:4,typeName:"主語または動詞がない文",jp:"英語だけを話す人々がいる場所に行けば、英語をすぐに話せるようになります。",answer:"If you go to a place where people speak only English, you can learn to speak English quickly.",mistake:"If speak English only people place, you can speak English quickly.\n★主語がない。「誰が」話すのか？主語 you を追加。",hint:"ヒント表現: If you go to a place where...（もし〜の場所に行けば）/  learn to speak English （英語を話せるようになる）/ quickly （すぐに）"},
+  {id:"4-03",type:4,typeName:"主語または動詞がない文",jp:"あなたは自分の力で生きる力を身につけられる。",answer:"You can gain the strength to live on your own.",mistake:"Gain the strength to live on your own.\n★主語がない。 「誰が」できるのか？→ 主語 You を追加。",hint:"ヒント表現: gain the strength to live（生きる力を身につける）/  on your own（自分の力で）"},
+  {id:"4-04",type:4,typeName:"主語または動詞がない文",jp:"私はスピーキング力とライティング力を伸ばせると思う。",answer:"I think I can improve my speaking and writing skills.",mistake:"I think improve my skills speaking and writing.\n★主語がない。「誰が」伸ばせるのか？→ 動詞growの前に主語 I を追加。",hint:"ヒント表現:  improve（伸ばす）/ speaking and writing skills（スピーキング力とライティング力）"},
+  {id:"4-05",type:4,typeName:"主語または動詞がない文",jp:"私は多くの文化について学べると思う。",answer:"I think I can learn about many cultures.",mistake:"I think learn many culture.\n★主語がない。「誰が」学べるのか？→ 動詞learnの前に主語 I を追加。",hint:"ヒント表現:  learn about～（～について学ぶ）/ many cultures（多くの文化）"},
+  {id:"4-06",type:4,typeName:"主語または動詞がない文",jp:"私は将来、それが一人暮らしに役立つと思う。",answer:"I think it will help me live independently in the future.",mistake:"I think help for alone life style in the future.\n★主語がない。「何が」役立つのか？→ 動詞helpの前に主語 itを追加。",hint:"ヒント表現:  live independently（一人暮らしをする）/ in the future（将来）"},
+  {id:"4-07",type:4,typeName:"主語または動詞がない文",jp:"異文化を理解することが大切だ。",answer:"It is important to understand different cultures.",mistake:"Important to understand different cultures.\n★主語と動詞がない。「何が」大切か？→ 形容詞importantの前に主語 It と動詞 isを追加。",hint:"ヒント表現:  形式主語 It is … to … を使ってみよう。important（大切）/ understand（理解する）/ different cultures（異文化）"},
+  {id:"4-08",type:4,typeName:"主語または動詞がない文",jp:"毎日英語を練習すべきだ。",answer:"You should practice English every day.",mistake:"Should practice English every day.\n★主語がない。「誰が」練習すべきなのか？→ 動詞should practicepの前に主語 You / We/ I を追加。",hint:"ヒント表現:  should （べき）/practice English（英語を練習する）"},
+  {id:"4-09",type:4,typeName:"主語または動詞がない文",jp:"あなたは新しい友達を作ることができる。",answer:"You can make new friends.",mistake:"Can make new friends.\n★主語がない。「誰が」作ることができるのか？→ 動詞 can makeの前に主語 Youを追加。",hint:"ヒント表現: make new friends（新しい友達を作る）"},
+  {id:"4-10",type:4,typeName:"主語または動詞がない文",jp:"私は世界中を旅行したい。",answer:"I want to travel around the world.",mistake:"Want to travel around the world.\n★主語がない。「誰が」したいのか？→ 動詞 wantの前に主語 I を追加。",hint:"ヒント表現: travel（旅行する）/ around the world（世界中を）"},
+  {id:"4-11",type:4,typeName:"主語または動詞がない文",jp:"私は英語が上手になりたい。",answer:"I want to become good at English.",mistake:"Want to become good at English.\n★主語がない。「誰が」したいのか？→ 動詞 wantの前に主語 I を追加。",hint:"ヒント表現:  become good at English（英語が上手になる）"},
+  {id:"4-12",type:4,typeName:"主語または動詞がない文",jp:"私は留学は楽しいと思う。",answer:"I think studying abroad is fun.",mistake:"I think fun studying abroad.\n★主語の位置が誤り。「何が」楽しいのか？→ I thinkの後の文の主語は studying abroad。",hint:"ヒント表現:  fun（楽しい）"},
+  {id:"4-13",type:4,typeName:"主語または動詞がない文",jp:"私はたくさんの経験ができると思う。",answer:"I think I can have many experiences.",mistake:"I think many experiences.\n★ I thinkの後に主語と動詞がない。「誰が」「できる」のか？→ 目的語many experiencesの前に,主語 (I) と動詞 (can have) を追加。",hint:"ヒント表現:  have many experiences（たくさんの経験ができる）"},
+  {id:"4-14",type:4,typeName:"主語または動詞がない文",jp:"私は外国の食べ物を食べてみたい。",answer:"I want to try foreign foods.",mistake:"Want to try foreign food.\n★主語がない。「誰が」したいのか？→ 動詞 wantの前に主語 I を追加。",hint:"ヒント表現: try foreign foods（外国の食べ物を食べる）"},
+  {id:"4-15",type:4,typeName:"主語または動詞がない文",jp:"私は将来海外で働きたい。",answer:"I want to work abroad in the future.",mistake:"In the future, work abroad.\n★主語と動詞がない。「誰が」「働きたい」のか？→ 主語 ( I ) と動詞 (want to work) を追加。",hint:"ヒント表現: work abroad（海外で働く）"},
+  {id:"4-16",type:4,typeName:"主語または動詞がない文",jp:"私は英語を使う仕事に就きたい。",answer:"I want to get a job that uses English.",mistake:"Get a job that uses English.\n★主語がない。「誰が」したいのか？→主語 I を追加し getの前に動詞 want（したい）を追加。",hint:"ヒント表現:  get a job（仕事に就く）/ that uses English（英語を使う）"},
+  {id:"5-01",type:5,typeName:"Because エラー",jp:"夏が好きなので夏を選んだ。\n（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I chose summer because I like summer.",mistake:"I chose summer. Because I like summer.\n★Because ... だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現:  choose summer (夏を選ぶ）"},
+  {id:"5-02",type:5,typeName:"Because エラー",jp:"行ったことのない場所だから行くべきだ。（2文で答えなさい）",answer:"You should go there. This is because it is a place you have never been to.",mistake:"You should go there. Because, it is a place you have never been to.\n★Because だけでは文にならない →This is becauseを使って2文にしよう。",hint:"ヒント表現:  a place you have never been to（行ったことのない場所）"},
+  {id:"5-03",type:5,typeName:"Because エラー",jp:"高いので私は行きたくない。\n（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I don't want to go because it is expensive.",mistake:"I don't want to go. Because, it is expensive.\n★Because ... だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現: expensive（高い）"},
+  {id:"5-04",type:5,typeName:"Because エラー",jp:"英語力が上がるので私は留学したい。\n（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I want to study abroad because I can improve my English.",mistake:"I want to study abroad. Because I can improve my English.\n★Because ... だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現:  study abroad（留学する）/ improve my English（英語力を上げる）"},
+  {id:"5-05",type:5,typeName:"Because エラー",jp:"幸せになれると思うので私は留学したい。（2文で答えなさい）",answer:"I want to study abroad. This is because I think it will make me very happy.",mistake:"I want to study abroad. Because I think it will make me very happy.\n★Because だけでは文にならない →This is because を使って2文にしよう。",hint:"ヒント表現:  it will make me very happy（幸せになれる）"},
+  {id:"5-06",type:5,typeName:"Because エラー",jp:"日本にいるので私たちは英語の練習ができない。\n（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"We can't practice English because we are in Japan.",mistake:"We can't practice English. Because we are inside Japan.\n★Because ... だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現:  we are in Japan（日本にいる）"},
+  {id:"5-07",type:5,typeName:"Because エラー",jp:"多くの人が英語を話すのであなたは友達を作れる。\n（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"You can make many friends because many people speak English.",mistake:"You can make many friends. Because, many people speak English.\n★Because ... だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現:  can make many friends （友達を作れる)"},
+  {id:"5-08",type:5,typeName:"Because エラー",jp:"彼らにとって大切なことだから彼らは留学すべきだ。\n（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"They should study abroad because it is important for them.",mistake:"They should study abroad. Because it is important for them.\n★Because … だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現: study abroad （留学する）"},
+  {id:"5-09",type:5,typeName:"Because エラー",jp:"ネイティブの話を聞きたいので私は英語を勉強したい。（2文で答えなさい）",answer:"I want to study English. This is because I want to listen to native speakers.",mistake:"I want to study English. Because I want to listen to native speak.\n★Because だけでは文にならない → This is because を使って2文にしよう。",hint:"ヒント表現:  listen to native speakers（ネイティブの話を聞く）"},
+  {id:"5-10",type:5,typeName:"Because エラー",jp:"スキルを向上できるので私はそれは大切だと思う。\n（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I think it is important because I can improve my skills.",mistake:"I think it is important. Because I can improve my skills.\n★Because  … だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現: improve my skills（スキルを向上する）"},
+  {id:"5-11",type:5,typeName:"Because エラー",jp:"天気がよいので私は公園に行きたい。\n（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I want to go to the park because the weather is nice.",mistake:"I want to go to the park. Because the weather is nice.\n★Because  … だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現:  the weather is nice.（天気がよい）"},
+  {id:"5-12",type:5,typeName:"Because エラー",jp:"英語が必要だから私は英語の勉強をしている。（2文で答えなさい）",answer:"I study English. This is because English is necessary.",mistake:"I study English. Because English is necessary.\n★Because  … だけでは文にならない →、This is becauseを使って2文にしよう。",hint:"ヒント表現: necessary.（必要）"},
+  {id:"5-13",type:5,typeName:"Because エラー",jp:"とても疲れているので私は早く寝たい。\n（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I want to go to bed early because I am so tired.",mistake:"I want to go to bed early. Because I am so tired.\n★Because  … だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現:  early （早く）　/ so tired（とても疲れている）"},
+  {id:"5-14",type:5,typeName:"Because エラー",jp:"お金がないので私はそれを買えない。\n（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I can't buy it because I don't have money.",mistake:"I can't buy it. Because I don't have money.\n★Because  … だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現:  don't have money.（お金がない）"},
+  {id:"5-15",type:5,typeName:"Because エラー",jp:"健康によいので私は毎日運動している。（2文で答えなさい）",answer:"I exercise every day. This is because it is good for my health.",mistake:"I exercise every day. Because it is good for my health.\n★Because  … だけでは文にならない →This is because にを使って2文にしよう。",hint:"ヒント表現: exercise（運動する）/ good for my health.（健康によい）"},
+  {id:"5-16",type:5,typeName:"Because エラー",jp:"友達がいるので私はその国に行きたい。\n（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I want to go to the country because I have friends there.",mistake:"I want to go to the country. Because I have friends there.\n★Because  … だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現:  have friends there. （そこに友達がいる）"},
+  {id:"5-17",type:5,typeName:"Because エラー",jp:"面白いので私はその授業が好きだ。\n（1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I like that class because it is interesting.",mistake:"I like that class. Because it is interesting.\n★Because  … だけでは文にならない → becauseを前文に続けて1文にしよう。",hint:"ヒント表現:  interesting.（面白い）"},
+  {id:"6-01",type:6,typeName:"For Example エラー",jp:"留学すると多くの新しいことを体験する。例えば生活様式、食べ物、言語などだ。\n(such asを使って1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"When you study abroad, you experience many new things, such as the lifestyle, food, and language.",mistake:"When you study abroad, you experience many new things. For example, the lifestyle, food, and language.\n★For example, の後は具体例を説明する文（主語＋動詞）でなければいけません。 \n★名詞の例を挙げる場合は such as を使いましょう。",hint:"ヒント表現:  experience（体験する）/ lifestyle（生活様式）/language（言語）"},
+  {id:"6-02",type:6,typeName:"For Example エラー",jp:"英語にはリスニング、ライティング、スピーキング、リーディングのような4つのスキルがある。\n(such asを使って1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"There are four skills in English, such as listening, writing, speaking, and reading.",mistake:"There are four skills. Such as, listening, writing, speaking and reading.\n★such as で文を始めてはいけません。 →前の文に続けて 1つの文にする。such as の前にはコンマが必要。",hint:"ヒント表現: There are … ( … がある）"},
+  {id:"6-03",type:6,typeName:"For Example エラー",jp:"国によって多くのことが異なる。例えば食べ物、服装、挨拶、身振りなどだ。\n(such asを使って1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"Many things are different between countries, such as food, clothes, greetings, and gestures.",mistake:"Many things are different. For example, foods, clothes, greetings and gestures.\n★For example, の後は具体例を説明する文（主語＋動詞）でなければいけません。 \n★名詞の例を挙げる場合は such as を使いましょう。",hint:"ヒント表現: different（異なる）/ between countries（国によって） / clothes（服装）/ greetings（挨拶）/and gestures（身振り)"},
+  {id:"6-04",type:6,typeName:"For Example エラー",jp:"私はスピーキング,リーディング,リスニング、ライティングなど4技能すべてを向上させたい。\n(such asを使って1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I want to improve all four English skills, such as speaking, reading, listening, and writing.",mistake:"I want to improve four English skills. Such as speaking, reading, listening, and writing.\n★such as で文を始めてはいけません。 →前の文に続けて 1つの文にする。such as の前にはコンマが必要。",hint:"ヒント表現: improve（向上させる） / all（すべての）"},
+  {id:"6-05",type:6,typeName:"For Example エラー",jp:"私は多くのことを学べる。例えば食べ物、音楽、歴史、芸術について学べる。\n（2文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I can learn about many things. For example, I can learn about food, music, history, and art.",mistake:"I can learn about many things. For example, food, music, history, and art.\n★For example, の後には完全な文（主語＋動詞）が必要 → I can learn about を追加。",hint:"ヒント表現: history（歴史）/ art（芸術）"},
+  {id:"6-06",type:6,typeName:"For Example エラー",jp:"私は多くのことを自分でするようになった。例えば料理、皿洗い、掃除を自分でするようになった。\n（2文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I started doing many things by myself. For example, I started cooking, washing dishes, and cleaning my room.",mistake:"I started doing many things by myself. For example, cooking, washing dishes, and cleaning my room.\n★For example, の後には完全な文（主語＋動詞）が必要 → I started を追加。",hint:"ヒント表現:  start doing many things （多くのことを自分でする）/ by myself （自分で）/ washing dishes （皿洗い）/ cleaning my room（部屋の掃除）"},
+  {id:"6-07",type:6,typeName:"For Example エラー",jp:"国によって多くの違いがある。例えば肌の色、食べ物、マナーのようなに違いがある。\n（2文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"There are many differences between countries. For example, there are differences in skin color, food, and manners.",mistake:"There are many differences between countries. For example, skin color, food, and manners.\n★For example, の後には完全な文（主語＋動詞）が必要 →  there are differences inを追加。",hint:"ヒント表現: There are many differenes（多くの違いがある）/　between countries（国によって）/ skin color（肌の色）/ manners（マナー）"},
+  {id:"6-08",type:6,typeName:"For Example エラー",jp:"外国の文化は日本と違う。例えば家の中で靴を脱がない。\n（2文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"Foreign culture is different from Japan. For example, people do not take off their shoes inside the house.",mistake:"Foreign culture is different from Japan. For example, no take off shoes.\n★For example, の後には完全な文（主語＋動詞）が必要 →  people do not を追加。",hint:"ヒント表現: take off their shoes （靴を脱ぐ）/inside the house（家の中で）"},
+  {id:"6-09",type:6,typeName:"For Example エラー",jp:"私は日常生活について学びたい。例えば食事や生活様式などだ。\n(such asを使って1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I want to learn about everyday life, such as meals and living styles.",mistake:"I want to learn about everyday life. Such as, meals and living styles.\n★such as で文を始めてはいけません。 →前の文に続けて 1つの文にする。such as の前にはコンマが必要。",hint:"ヒント表現: everyday life（日常生活）/ meals （食事）/ living styles（生活様式）"},
+  {id:"6-10",type:6,typeName:"For Example エラー",jp:"私は英語を練習する方法がある。例えば毎日英語で日記を書いている。\n（2文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I have ways to practice English. For example, I write a diary in English every day.",mistake:"I have ways to practice English. For example, diary in English every day.\n★For example, の後には完全な文（主語＋動詞）が必要 →  I write を追加。",hint:"ヒント表現: ways （方法）/ practice（練習する）/ diary （日記）/ in Engllish （英語で）"},
+  {id:"6-11",type:6,typeName:"For Example エラー",jp:"私はスポーツが好きだ。例えばサッカーやバスケットボールが好きだ。\n(such asを使って1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I like sports, such as soccer and basketball.",mistake:"I like sports. For example, soccer and basketball.\n★For example, の後は具体例を説明する文（主語＋動詞）でなければいけません。 \n★名詞の例を挙げる場合は such as を使いましょう。",hint:"ヒント表現:  soccer and basketball.（サッカーやバスケットボール）"},
+  {id:"6-12",type:6,typeName:"For Example エラー",jp:"私はいろいろな方法で通学している。例えば電車やバスで通学している。\n（2文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I go to school in different ways. For example, I go to school by train or bus.",mistake:"I go to school in different ways. For example, train and bus.\n★For example, の後には完全な文（主語＋動詞）が必要 →  I go to school by を追加。",hint:"ヒント表現: in different ways （いろいろな方法で）/ by train or bus（電車やバスで）"},
+  {id:"6-13",type:6,typeName:"For Example エラー",jp:"私は日本食が好きだ。例えば寿司やラーメンが好きだ。\n(such asを使って1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I like Japanese food, such as sushi and ramen.",mistake:"I like Japanese food. For example, sushi and ramen.\n★For example, の後は具体例を説明する文（主語＋動詞）でなければいけません。 \n★名詞の例を挙げる場合は such as を使いましょう。",hint:"ヒント表現: sushi and ramen（寿司やラーメン）"},
+  {id:"6-14",type:6,typeName:"For Example エラー",jp:"私にはたくさんの趣味がある。例えば映画を見たり音楽を聴いたりする。\n（2文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I have many hobbies. For example, I watch movies and listen to music.",mistake:"I have many hobbies. For example, movies and music.\n★For example, の後には完全な文（主語＋動詞）が必要 → I watch ... and listen to を追加。",hint:"ヒント表現:  watching movies and listening to music.（映画を見ることや音楽を聴くこと）"},
+  {id:"6-15",type:6,typeName:"For Example エラー",jp:"私は健康的な習慣がある。例えば朝早く起きて運動している。\n（2文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I have healthy habits. For example, I wake up early and exercise in the morning.",mistake:"I have healthy habits. For example, wake up early and exercise in the morning.\n★For example, の後には完全な文（主語＋動詞）が必要 → 主語 I を追加。",hint:"ヒント表現: healthy habits（健康的な習慣）/ wake up early and exercise in the morning（朝早く起きて運動する）"},
+  {id:"6-16",type:6,typeName:"For Example エラー",jp:"私はいろいろな場所で勉強している。例えば図書館やカフェなどだ。\n(such asを使って1文で答えなさい。音声入力後、大文字/小文字・句読点が正しいか確認し、違っている場合は修正してください。）",answer:"I study in different places, such as the library and cafes.",mistake:"I study in different places. For example, library and cafe.\n★For example, の後は具体例を説明する文（主語＋動詞）でなければいけません。 \n★名詞の例を挙げる場合は such as を使いましょう。",hint:"ヒント表現: in various places（いろいろな場所で）/  the library（図書館） / cafes.（カフェ）"}
 ];
 
 const TYPE_META = {
@@ -241,19 +143,17 @@ const TYPE_META = {
   6:{emoji:"\u{1F4DD}",color:"#6A1B9A",label:"Type 6",count:16,name:"For Example エラー",desc:"For example の後に単語を並べるだけでなく、完全な文（主語＋動詞）にしましょう。"},
 };
 
-// === 改善1: 正規化の強化 ===
 function normalize(s){
   return s.toLowerCase()
     .replace(/[\u2018\u2019\u0060]/g,"'")
     .replace(/[\u201C\u201D]/g,'"')
     .replace(/\s+/g," ")
     .replace(/[.,!?;:]+$/g,"")
-    .replace(/\s*([.,!?;:])/g,"$1")  // 句読点前のスペース除去
+    .replace(/\s*([.,!?;:])/g,"$1")
     .replace(/\s+/g," ")
     .trim();
 }
 
-// === 改善2: 同義語許容 ===
 const SYNONYMS = [
   ["you","we","i","they","students","people"],
   ["can not","cannot","can't"],
@@ -273,7 +173,7 @@ const SYNONYMS = [
   ["happy","glad"],
   ["start","begin"],
   ["also","too"],
-  ["want to","would like to","wanna"],
+  ["want to","would like to"],
   ["because","since","as"],
   ["important","significant"],
   ["different","various"],
@@ -282,7 +182,7 @@ const SYNONYMS = [
   ["get","obtain","gain"],
   ["improve","develop","enhance"],
   ["through","by","via"],
-  ["a cafe","a café","cafes","cafés","cafe","café"],
+  ["a cafe","a caf\u00e9","cafes","caf\u00e9s","cafe","caf\u00e9"],
 ];
 
 function normalizeSynonyms(text){
@@ -300,12 +200,9 @@ function normalizeSynonyms(text){
 function checkAnswer(input,answer){
   const parts=answer.split("\n").filter(s=>s.trim()&&!s.startsWith("(or)"));
   const n=normalize(input);
-  // Exact match against any answer variant
   for(const p of parts){if(normalize(p)===n)return"correct";}
-  // Synonym-tolerant match
   const nSyn=normalizeSynonyms(n);
   for(const p of parts){if(normalizeSynonyms(normalize(p))===nSyn)return"correct";}
-  // Similarity check
   const a=normalize(parts[0]);
   const w1=n.split(" "),w2=a.split(" ");
   let c=0;const s2=new Set(w2);
@@ -319,7 +216,7 @@ function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Mat
 function ML({text,style}){
   if(!text)return null;
   const lines=text.split("\n").filter(l=>l.trim());
-  return React.createElement("div",{style},lines.map((l,i)=>React.createElement("div",{key:i,style:{marginBottom:i<lines.length-1?4:0}},l)));
+  return React.createElement("div",{style:style||{}},lines.map((l,i)=>React.createElement("div",{key:i,style:{marginBottom:i<lines.length-1?4:0}},l)));
 }
 
 function App(){
@@ -335,13 +232,11 @@ function App(){
   const[listening,setListening]=useState(false);
   const iRef=useRef(null);const rRef=useRef(null);
 
-  // === 改善3: Type 5,6は長文なので録音時間延長 ===
   const startListen=useCallback(()=>{
     const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
     if(!SR){alert("音声認識非対応です。Chromeをお使いください。");return}
     const r=new SR();r.lang="en-US";r.interimResults=true;
     const q=qs[idx];
-    // Type 5,6 or long answers: use continuous mode
     r.continuous=(q&&(q.type===5||q.type===6));
     r.onresult=e=>{let f="",im="";for(let i=0;i<e.results.length;i++){if(e.results[i].isFinal)f+=e.results[i][0].transcript+" ";else im+=e.results[i][0].transcript}setInput((f||im).trim())};
     r.onend=()=>setListening(false);r.onerror=()=>setListening(false);
