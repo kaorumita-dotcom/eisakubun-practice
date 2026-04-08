@@ -153,19 +153,10 @@ function normalize(s){
     .trim();
 }
 
-const SYNONYMS = [
-  ["you","we","i","they","students","people"],
-  ["your","my","our","their"],
-  ["yourself","myself","ourselves","themselves"],
-  ["can not","cannot","can't"],
-  ["do not","don't","dont"],
-  ["does not","doesn't"],
-  ["will not","won't"],
-  ["is not","isn't"],
-  ["are not","aren't"],
-  ["it is","it's"],
-  ["i am","i'm"],
+// Phase 1: Expand contractions first (order matters!)
+const CONTRACTIONS = [
   ["i would","i'd"],
+  ["i am","i'm"],
   ["i will","i'll"],
   ["i have","i've"],
   ["you are","you're"],
@@ -186,8 +177,23 @@ const SYNONYMS = [
   ["she is","she's"],
   ["she would","she'd"],
   ["she will","she'll"],
+  ["it is","it's"],
   ["that is","that's"],
   ["there is","there's"],
+  ["can not","can't"],
+  ["cannot","can't"],
+  ["do not","don't"],
+  ["does not","doesn't"],
+  ["will not","won't"],
+  ["is not","isn't"],
+  ["are not","aren't"],
+];
+
+// Phase 2: Synonym groups (applied after contractions are expanded)
+const SYNONYMS = [
+  ["you","we","i","they","students","people"],
+  ["your","my","our","their"],
+  ["yourself","myself","ourselves","themselves"],
   ["would like to","want to"],
   ["the most","most"],
   ["a lot of","many","lots of"],
@@ -210,8 +216,19 @@ const SYNONYMS = [
   ["a cafe","a caf\u00e9","cafes","caf\u00e9s","cafe","caf\u00e9"],
 ];
 
-function normalizeSynonyms(text){
+function expandContractions(text){
   let s = text;
+  for(const [full, short] of CONTRACTIONS){
+    const re = new RegExp(short.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),"gi");
+    s = s.replace(re, full);
+  }
+  return s;
+}
+
+function normalizeSynonyms(text){
+  // First expand all contractions
+  let s = expandContractions(text);
+  // Then apply synonym groups
   for(const group of SYNONYMS){
     const sorted = [...group].sort((a,b)=>b.length-a.length);
     for(let i=1;i<sorted.length;i++){
